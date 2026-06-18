@@ -348,6 +348,7 @@ main { padding-top: var(--nav-h); }
   margin: 0 auto;
   padding: 90px 28px 80px;
   flex: 1;
+  width: 100%;
 }
 .about-inner {
   display: grid;
@@ -431,6 +432,7 @@ main { padding-top: var(--nav-h); }
   max-width: var(--max);
   margin: 0 auto;
   padding: 90px 28px 80px;
+  width: 100%;
 }
 .contact-inner { max-width: 900px; }
 .contact-header { margin-bottom: 52px; }
