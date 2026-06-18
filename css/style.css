@@ -566,6 +566,8 @@ footer {
 
   .about-inner { grid-template-columns: 1fr; }
   .about-photo-wrap { position: static; max-width: 240px; }
+  .about-btn-photo { display: none !important; }
+  .about-btn-bottom { display: block !important; }
   .skills-block { grid-template-columns: 1fr 1fr; }
 
   .contact-split { grid-template-columns: 1fr; gap: 36px; }
