@@ -1,74 +1,73 @@
-# Lazar Gugleta Portfolio
+[README.md](https://github.com/user-attachments/files/29133327/README.md)
+# Gugleta Portfolio
 
 ## File Structure
 
 ```
 gugleta/
-├── index.html          ← Landing page (project grid)
+├── index.html                      ← Projects page (home)
+├── logo.png                        ← Nav logo
+├── favicon.png                     ← Browser tab icon
+├── Profilna.jpeg                   ← About page profile photo
+├── youtube.html                    ← Helper page used to embed YouTube videos
 ├── css/
-│   └── style.css       ← All styles
+│   └── style.css                   ← All styles
 ├── js/
-│   ├── main.js         ← Nav, back-to-top, year (runs on every page)
-│   ├── projects.js     ← ALL PROJECT DATA — edit this to add/change projects
-│   ├── project-page.js ← Renders the individual project page
-│   └── contact.js      ← EmailJS contact form handler
-├── pages/
-│   ├── project.html    ← Single project view (video + "you may also like")
-│   ├── about.html      ← About page
-│   └── contact.html    ← Contact page
-└── redirect.html       ← Drop this at lazargugleta.com root to redirect → lazargugleta.com
+│   ├── main.js                     ← Nav, back-to-top, year (runs on every page)
+│   ├── projects.js                 ← PROJECTS data — edit to add/change videos on the Projects page
+│   ├── project-page.js             ← Renders the individual Projects detail page
+│   ├── motion-graphics-projects.js ← MOTION_PROJECTS data — edit to add/change videos on the Motion Graphics page
+│   ├── motion-graphics-page.js     ← Renders the individual Motion Graphics detail page
+│   └── contact.js                  ← EmailJS contact form handler
+└── pages/
+    ├── about.html                  ← About page
+    ├── contact.html                ← Contact page
+    ├── project.html                ← Single project view for the Projects page
+    ├── motion-graphics.html        ← Motion Graphics page (grid)
+    └── motion-graphics-project.html ← Single project view for the Motion Graphics page
 ```
 
 ## How to Add / Edit Projects
 
-Open `js/projects.js` — every project is one object in the `PROJECTS` array.
+The site has **two separate, independent project grids** — Projects and Motion Graphics. They use the same card layout and behavior but pull from two different data files, so editing one never affects the other.
+
+### Projects page → `js/projects.js`
+Edit the `PROJECTS` array. Each project is one object:
 
 ```js
 {
-  id: "my-project",           // unique slug — used in URLs (?id=my-project)
-  title: "My Project Title",
-  type: "COMMERCIAL",         // shown as label above title
+  id: "p01",                       // unique slug — used in URLs (?id=p01)
+  titleOverride: "My Project Title", // set to null to auto-fetch the title from YouTube/Vimeo
+  type: "VIDEO EDITOR · COLORIST",   // shown as label above the title
   thumb: "URL to thumbnail image",
-  platform: "youtube",        // youtube | vimeo | instagram | facebook
-  embed: "VIDEO_ID",          // YouTube/Vimeo: video ID only
-                              // Instagram/Facebook: full iframe src URL
-  description: "Description text shown on the project page.",
-  related: ["id1", "id2", "id3"]  // IDs of projects shown in "You May Also Like"
+  platform: "youtube",             // youtube | vimeo | external
+  embed: "VIDEO_ID",                // YouTube/Vimeo: video ID only (may include ?si=... for YouTube)
+  description: "Role: Video Editor, Colorist",
+  related: ["p02", "p03", "p04"]    // IDs of projects shown in "You May Also Like"
 }
 ```
 
-### YouTube thumbnail
-Use: `https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg`
+### Motion Graphics page → `js/motion-graphics-projects.js`
+Same exact format, but edit the `MOTION_PROJECTS` array instead. IDs in this file should be prefixed differently (e.g. `m01`, `m02`) to avoid confusion with Projects IDs — they're independent, but keeping them visually distinct helps when editing.
 
-### Vimeo thumbnail
-Grab the thumbnail URL from vimeo.com or your dashboard.
+### Thumbnails
 
-### Instagram embed src
-`https://www.instagram.com/p/POST_SHORTCODE/embed/`
+**YouTube:**
+`https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg`
 
-### Facebook embed src
-`https://www.facebook.com/plugins/video.php?href=PERCENT_ENCODED_VIDEO_URL`
+**Vimeo:**
+`https://vumbnail.com/YOUR_VIDEO_ID.jpg`
 
-## Redirect (lazargugleta.com → lazargugleta.com)
+## Favicon & Logo
+Replace `favicon.png` and `logo.png` in the root with your own files, keeping the same filenames — no code changes needed.
 
-Upload `redirect.html` as `index.html` to your lazargugleta.com root.
-The page uses both `window.location.replace()` and `<meta http-equiv="refresh">` as fallback,
-so it works even if JavaScript is disabled.
+## Profile Photo
+Replace `Profilna.jpeg` in the root with your own photo, keeping the same filename.
 
-For a cleaner server-side redirect (preferred), add this to your `.htaccess` on lazargugleta.com:
-```
-Redirect 301 / https://lazargugleta.com/
-```
-Or in Nginx:
-```
-return 301 https://lazargugleta.com$request_uri;
-```
+## EmailJS (Contact Form)
+The contact form sends to your email via EmailJS. Your current keys live in `js/contact.js`:
+- `publicKey`
+- Service ID (e.g. `service_xxxxxxx`)
+- Template ID (e.g. `template_xxxxxxx`)
 
-## Favicon
-Replace `Profilna2.jpeg` in the root with your new icon image.
-Update the `<link rel="icon">` href in all HTML files if you rename the file.
-
-## EmailJS
-The contact form uses your existing EmailJS keys. If you need to update them:
-- `publicKey` in `js/contact.js`
-- `service_h0un01o` and `template_iwgzydk` in `js/contact.js`
+If you ever need to reconnect or change the destination email, update your EmailJS dashboard and paste the new IDs into `js/contact.js`.
