@@ -55,7 +55,7 @@
 
   <button class="back-top" id="backTop" aria-label="Back to top">&#8593;</button>
 
-  <script src="../js/projects.js"></script>
+  <script src="../js/motion-graphics-projects.js"></script>
   <script src="../js/main.js"></script>
   <script>
   // Render grid cards, then asynchronously fill in titles
@@ -90,7 +90,7 @@
       </div>`
     };
 
-    PROJECTS.forEach(p => {
+    MOTION_PROJECTS.forEach(p => {
       const a = document.createElement('a');
       // All cards with an externalUrl open in a new tab (YouTube, Facebook, Instagram)
       if (p.externalUrl) {
@@ -98,7 +98,7 @@
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
       } else {
-        a.href = `project.html?id=${p.id}`;
+        a.href = `motion-graphics-project.html?id=${p.id}`;
       }
       a.className = 'card';
       // Portrait thumbnails shown letterboxed (object-fit: contain) inside 16:9 container
@@ -126,7 +126,7 @@
     });
 
     // Now fetch all titles in parallel and update
-    PROJECTS.forEach(async p => {
+    MOTION_PROJECTS.forEach(async p => {
       const title = await fetchTitle(p);
       const el = document.getElementById(`title-${p.id}`);
       if (el && title) el.textContent = title;
