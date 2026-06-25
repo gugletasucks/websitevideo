@@ -7,31 +7,31 @@
 const MOTION_PROJECTS = [
   {
     id: "m01",
-    titleOverride: "Sample Motion Graphics Project",
+    titleOverride: "Meet Thrivea Introduction Video",
     type: "MOTION GRAPHICS DESIGNER",
-    thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+    thumb: "https://img.youtube.com/vi/uKuqptcaqK8/maxresdefault.jpg",
     platform: "youtube",
-    embed: "dQw4w9WgXcQ",
+    embed: "uKuqptcaqK8",
     description: "Role: Motion Graphics Designer",
     related: ["m02", "m03"]
   },
   {
     id: "m02",
-    titleOverride: "Sample Motion Graphics Project 2",
+    titleOverride: "Rizz Me App Launch Video",
     type: "MOTION GRAPHICS DESIGNER",
-    thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+    thumb: "https://img.youtube.com/vi/dRU2OrnfQwk/maxresdefault.jpg",
     platform: "youtube",
-    embed: "dQw4w9WgXcQ",
+    embed: "dRU2OrnfQwk",
     description: "Role: Motion Graphics Designer",
     related: ["m01", "m03"]
   },
   {
     id: "m03",
-    titleOverride: "Sample Motion Graphics Project 3",
+    titleOverride: "Leaf Signal Journey Video",
     type: "MOTION GRAPHICS DESIGNER",
-    thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+    thumb: "https://img.youtube.com/vi/l0qXo1QhZgw/maxresdefault.jpg",
     platform: "youtube",
-    embed: "dQw4w9WgXcQ",
+    embed: "l0qXo1QhZgw",
     description: "Role: Motion Graphics Designer",
     related: ["m01", "m02"]
   }
