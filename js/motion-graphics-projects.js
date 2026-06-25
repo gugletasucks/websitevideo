@@ -1,38 +1,80 @@
-// ============================================================
-//  MOTION GRAPHICS PROJECT DATA — edit this file to manage
-//  the Motion Graphics page. Completely separate from
-//  js/projects.js (which powers the Projects page).
-// ============================================================
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project — Lazar Gugleta</title>
+  <meta name="description" content="Project by Lazar Gugleta">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
 
-const MOTION_PROJECTS = [
-  {
-    id: "m01",
-    titleOverride: "Sample Motion Graphics Project",
-    type: "MOTION GRAPHICS DESIGNER",
-    thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    platform: "youtube",
-    embed: "dQw4w9WgXcQ",
-    description: "Role: Motion Graphics Designer",
-    related: ["m02", "m03"]
-  },
-  {
-    id: "m02",
-    titleOverride: "Sample Motion Graphics Project 2",
-    type: "MOTION GRAPHICS DESIGNER",
-    thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    platform: "youtube",
-    embed: "dQw4w9WgXcQ",
-    description: "Role: Motion Graphics Designer",
-    related: ["m01", "m03"]
-  },
-  {
-    id: "m03",
-    titleOverride: "Sample Motion Graphics Project 3",
-    type: "MOTION GRAPHICS DESIGNER",
-    thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    platform: "youtube",
-    embed: "dQw4w9WgXcQ",
-    description: "Role: Motion Graphics Designer",
-    related: ["m01", "m02"]
-  }
-];
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><img src="../logo.png" alt="Lazar Gugleta" class="nav-logo-img"></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">PROJECTS</a></li>
+        <li><a href="motion-graphics.html" class="active">MOTION GRAPHICS</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="contact.html">CONTACT</a></li>
+      </ul>
+      <button class="nav-burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="../index.html">PROJECTS</a></li>
+      <li><a href="motion-graphics.html">MOTION GRAPHICS</a></li>
+      <li><a href="about.html">ABOUT</a></li>
+      <li><a href="contact.html">CONTACT</a></li>
+    </ul>
+  </div>
+
+  <main class="project-page">
+
+    <!-- Back link -->
+    <a href="motion-graphics.html" class="back-link">← All Motion Graphics</a>
+
+    <!-- Video embed -->
+    <div class="project-video" id="projectVideo">
+      <!-- filled by JS -->
+    </div>
+
+    <!-- Project info -->
+    <div class="project-info" id="projectInfo">
+      <!-- filled by JS -->
+    </div>
+
+    <!-- You may also like -->
+    <section class="also-like" id="alsoLike">
+      <h3 class="also-title">You May Also Like</h3>
+      <div class="also-grid" id="alsoGrid">
+        <!-- filled by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span>© <span id="year"></span> Lazar Gugleta. All rights reserved.</span>
+      <a href="contact.html">Get in touch</a>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="back-top" id="backTop" aria-label="Back to top">&#8593;</button>
+
+  <script src="../js/motion-graphics-projects.js"></script>
+  <script src="../js/motion-graphics-page.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
