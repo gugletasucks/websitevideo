@@ -42,6 +42,16 @@ const PROJECTS = [
     embed: "DwakqUxIr6A",
     description: "Role: 1st AC, Motion Graphics Designer",
     related: ["p01", "p02", "p03"]
+  },
+  {
+    id: "p05",
+    titleOverride: "Fantom - Devojka sa tužnim očima (Official Video)",
+    type: "DP · 1ST AC",
+    thumb: "https://img.youtube.com/vi/Mhnuxkgok60/maxresdefault.jpg",
+    platform: "youtube",
+    embed: "Mhnuxkgok60",
+    description: "Role: DP, 1st AC",
+    related: ["p02", "p03", "p01"]
   }
   
 ];
