@@ -44,5 +44,15 @@ const MOTION_PROJECTS = [
     embed: "DKzKNsERINg",
     description: "Role: Motion Graphics Designer",
     related: ["m01", "m02", "m03"]
+  },
+  {
+    id: "m05",
+    titleOverride: "What is Plaky? Introduction Video",
+    type: "MOTION GRAPHICS DESIGNER",
+    thumb: "https://img.youtube.com/vi/yvgAiR5GM6Q/maxresdefault.jpg",
+    platform: "youtube",
+    embed: "yvgAiR5GM6Q",
+    description: "Role: Motion Graphics Designer",
+    related: ["m01", "m03", "m04"]
   }
 ];
