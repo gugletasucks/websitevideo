@@ -11,17 +11,17 @@ const PROJECTS = [
     platform: "youtube",
     embed: "Mhnuxkgok60",
     description: "Role: DP, 1st AC",
-    related: ["p02", "p03", "p01"]
+    related: ["p02", "p03", "p04"]
   },
   {
     id: "p02",
-    titleOverride: "Keune Business Dinner at the Bristol",
-    type: "1ST AC · VIDEO EDITOR · COLORIST",
-    thumb: "https://img.youtube.com/vi/CilpvYHEEO8/maxresdefault.jpg",
+    titleOverride: "lockddd | Park The Bus DJ Set",
+    type: "DP · 1ST AC · VIDEO EDITOR",
+    thumb: "https://img.youtube.com/vi/f5gPtj8XD10/maxresdefault.jpg",
     platform: "youtube",
-    embed: "CilpvYHEEO8",
-    description: "Role: 1st AC, Video Editor, Colorist",
-    related: ["p02", "p03", "p04"]
+    embed: "f5gPtj8XD10",
+    description: "Role: DP, 1st AC, Video Editor",
+    related: ["p01", "p03", "p04"]
   },
   {
     id: "p03",
@@ -35,12 +35,12 @@ const PROJECTS = [
   },
   {
     id: "p04",
-    titleOverride: "lockddd | Park The Bus DJ Set",
-    type: "DP · 1ST AC · VIDEO EDITOR",
-    thumb: "https://img.youtube.com/vi/f5gPtj8XD10/maxresdefault.jpg",
+    titleOverride: "Keune Business Dinner at the Bristol",
+    type: "1ST AC · VIDEO EDITOR · COLORIST",
+    thumb: "https://img.youtube.com/vi/CilpvYHEEO8/maxresdefault.jpg",
     platform: "youtube",
-    embed: "f5gPtj8XD10",
-    description: "Role: DP, 1st AC, Video Editor",
+    embed: "CilpvYHEEO8",
+    description: "Role: 1st AC, Video Editor, Colorist",
     related: ["p01", "p02", "p03"]
   },
   {
