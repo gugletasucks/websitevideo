@@ -13,7 +13,7 @@ const MOTION_PROJECTS = [
     platform: "youtube",
     embed: "uKuqptcaqK8",
     description: "Role: Motion Graphics Designer",
-    related: ["m02", "m03"]
+    related: ["m02", "m03", "m04"]
   },
   {
     id: "m02",
@@ -23,7 +23,7 @@ const MOTION_PROJECTS = [
     platform: "youtube",
     embed: "dRU2OrnfQwk",
     description: "Role: Motion Graphics Designer",
-    related: ["m01", "m03"]
+    related: ["m01", "m03", "m04"]
   },
   {
     id: "m03",
@@ -33,6 +33,16 @@ const MOTION_PROJECTS = [
     platform: "youtube",
     embed: "l0qXo1QhZgw",
     description: "Role: Motion Graphics Designer",
-    related: ["m01", "m02"]
+    related: ["m01", "m02", "m04"]
+  },
+  {
+    id: "m04",
+    titleOverride: "What is Clockify? Introduction Video",
+    type: "MOTION GRAPHICS DESIGNER",
+    thumb: "https://img.youtube.com/vi/DKzKNsERINg/maxresdefault.jpg",
+    platform: "youtube",
+    embed: "DKzKNsERINg",
+    description: "Role: Motion Graphics Designer",
+    related: ["m01", "m02", "m03"]
   }
 ];
