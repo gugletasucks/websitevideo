@@ -6,7 +6,7 @@ const PROJECTS = [
   {
     id: "p01",
     titleOverride: "Fantom - Devojka sa tužnim očima (Official Video)",
-    type: "DP · 1ST AC",
+    type: "DP",
     thumb: "https://img.youtube.com/vi/Mhnuxkgok60/maxresdefault.jpg",
     platform: "youtube",
     embed: "Mhnuxkgok60",
@@ -15,42 +15,52 @@ const PROJECTS = [
   },
   {
     id: "p02",
-    titleOverride: "lockddd | Park The Bus DJ Set",
-    type: "DP · 1ST AC · VIDEO EDITOR",
-    thumb: "https://img.youtube.com/vi/f5gPtj8XD10/maxresdefault.jpg",
+    titleOverride: "Couch Cup 26 (Official Video)",
+    type: "DIRECTOR · DP",
+    thumb: "https://img.youtube.com/vi/cqaneOCPUG0/maxresdefault.jpg",
     platform: "youtube",
-    embed: "f5gPtj8XD10",
-    description: "Role: DP, 1st AC, Video Editor",
+    embed: "cqaneOCPUG0",
+    description: "Role: Director, DP",
     related: ["p01", "p03", "p04"]
   },
   {
     id: "p03",
-    titleOverride: "Femme Affair Summer Season DJ Set",
-    type: "1ST AC · VIDEO EDITOR · COLORIST",
-    thumb: "https://img.youtube.com/vi/fNS6zZJ7zDM/maxresdefault.jpg",
+    titleOverride: "lockddd | Park The Bus DJ Set",
+    type: "DP · VIDEO EDITOR",
+    thumb: "https://img.youtube.com/vi/f5gPtj8XD10/maxresdefault.jpg",
     platform: "youtube",
-    embed: "fNS6zZJ7zDM",
-    description: "Role: 1st AC, Video Editor, Colorist",
-    related: ["p01, p02, p04"]
+    embed: "f5gPtj8XD10",
+    description: "Role: DP, Video Editor",
+    related: ["p01", "p02", "p04"]
   },
   {
     id: "p04",
-    titleOverride: "Keune Business Dinner at the Bristol",
-    type: "1ST AC · VIDEO EDITOR · COLORIST",
-    thumb: "https://img.youtube.com/vi/CilpvYHEEO8/maxresdefault.jpg",
+    titleOverride: "Femme Affair Summer Season DJ Set",
+    type: "CAMERA · VIDEO EDITOR · COLORIST",
+    thumb: "https://img.youtube.com/vi/fNS6zZJ7zDM/maxresdefault.jpg",
     platform: "youtube",
-    embed: "CilpvYHEEO8",
-    description: "Role: 1st AC, Video Editor, Colorist",
-    related: ["p01", "p02", "p03"]
+    embed: "fNS6zZJ7zDM",
+    description: "Role: Camera, Video Editor, Colorist",
+    related: ["p01, p02, p03"]
   },
   {
     id: "p05",
+    titleOverride: "Keune Business Dinner at the Bristol",
+    type: "CAMERA · VIDEO EDITOR · COLORIST",
+    thumb: "https://img.youtube.com/vi/CilpvYHEEO8/maxresdefault.jpg",
+    platform: "youtube",
+    embed: "CilpvYHEEO8",
+    description: "Role: Camera, Video Editor, Colorist",
+    related: ["p01", "p02", "p03"]
+  },
+  {
+    id: "p06",
     titleOverride: "We Got Your Back | CAKE.com",
-    type: "1ST AC · MOTION GRAPHICS DESIGNER",
+    type: "CAMERA · MOTION GRAPHICS DESIGNER",
     thumb: "https://img.youtube.com/vi/DwakqUxIr6A/maxresdefault.jpg",
     platform: "youtube",
     embed: "DwakqUxIr6A",
-    description: "Role: 1st AC, Motion Graphics Designer",
+    description: "Role: Camera, Motion Graphics Designer",
     related: ["p01", "p02", "p03"]
   }
   
