@@ -54,5 +54,15 @@ const MOTION_PROJECTS = [
     embed: "yvgAiR5GM6Q",
     description: "Role: Motion Graphics Designer",
     related: ["m01", "m03", "m04"]
+  },
+  {
+    id: "m06",
+    titleOverride: "Clockify Timer Feature",
+    type: "MOTION GRAPHICS DESIGNER",
+    thumb: "https://img.youtube.com/vi/mwBzsLpy6Dg/maxresdefault.jpg",
+    platform: "youtube",
+    embed: "mwBzsLpy6Dg",
+    description: "Role: Motion Graphics Designer",
+    related: ["m01", "m04", "m05"]
   }
 ];
