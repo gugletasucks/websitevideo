@@ -27,7 +27,7 @@ const PROJECTS = [
     id: "p03",
     titleOverride: "lockddd | Park The Bus DJ Set",
     type: "DP · VIDEO EDITOR",
-    thumb: "https://img.youtube.com/vi/f5gPtj8XD10/maxresdefault.jpg",
+    thumb: "../lockddd DJ Set Thumbnail.png",
     platform: "youtube",
     embed: "f5gPtj8XD10",
     description: "Role: DP, Video Editor",
