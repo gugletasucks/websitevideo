@@ -57,7 +57,7 @@ const PROJECTS = [
     id: "p06",
     titleOverride: "We Got Your Back | CAKE.com",
     type: "CAMERA · MOTION GRAPHICS DESIGNER",
-    thumb: "https://img.youtube.com/vi/DwakqUxIr6A/maxresdefault.jpg",
+    thumb: "../We Got Your Back Thumbnail.png",
     platform: "youtube",
     embed: "DwakqUxIr6A",
     description: "Role: Camera, Motion Graphics Designer",
