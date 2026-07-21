@@ -62,6 +62,16 @@ const PROJECTS = [
     embed: "DwakqUxIr6A",
     description: "Role: Camera, Motion Graphics Designer",
     related: ["p01", "p02", "p03"]
+  },
+  {
+    id: "p07",
+    titleOverride: "Iron Maiden Tribute Aftermovie",
+    type: "CAMERA",
+    thumb: "https://img.youtube.com/vi/aKgrPhtxTTA/maxresdefault.jpg",
+    platform: "youtube",
+    embed: "aKgrPhtxTTA",
+    description: "Role: Camera",
+    related: ["p01", "p02", "p03"]
   }
   
 ];
