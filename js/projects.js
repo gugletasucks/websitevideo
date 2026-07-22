@@ -5,22 +5,22 @@
 const PROJECTS = [
   {
     id: "p01",
-    titleOverride: "Fantom - Devojka sa tužnim očima (Official Video)",
-    type: "DP",
-    thumb: "https://img.youtube.com/vi/Mhnuxkgok60/maxresdefault.jpg",
-    platform: "youtube",
-    embed: "Mhnuxkgok60",
-    description: "Role: DP, 1st AC",
-    related: ["p02", "p03", "p04"]
-  },
-  {
-    id: "p02",
     titleOverride: "Couch Cup 26 (Official Video)",
     type: "DIRECTOR · DP",
     thumb: "https://img.youtube.com/vi/cqaneOCPUG0/maxresdefault.jpg",
     platform: "youtube",
     embed: "cqaneOCPUG0",
     description: "Role: Director, DP",
+    related: ["p02", "p03", "p04"]
+  },
+  {
+    id: "p02",
+    titleOverride: "Fantom - Devojka sa tužnim očima (Official Video)",
+    type: "DP",
+    thumb: "https://img.youtube.com/vi/Mhnuxkgok60/maxresdefault.jpg",
+    platform: "youtube",
+    embed: "Mhnuxkgok60",
+    description: "Role: DP",
     related: ["p01", "p03", "p04"]
   },
   {
