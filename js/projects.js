@@ -72,6 +72,16 @@ const PROJECTS = [
     embed: "aKgrPhtxTTA",
     description: "Role: Camera",
     related: ["p01", "p02", "p03"]
+  },
+  {
+    id: "p08",
+    titleOverride: "Barbershop Promotional Video",
+    type: "CAMERA · VIDEO EDITOR · COLORIST",
+    thumb: "https://img.youtube.com/vi/zA6qnh-IZWY/maxresdefault.jpg",
+    platform: "youtube",
+    embed: "zA6qnh-IZWY",
+    description: "Role: Camera, Video Editor, Colorist",
+    related: ["p01", "p02", "p03"]
   }
   
 ];
