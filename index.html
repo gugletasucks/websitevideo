@@ -20,6 +20,7 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -90,6 +91,9 @@
       pointer-events: none;
       border: 0;
     }
+
+    /* Theater modal: width follows the available height so the 16:9 frame is never squeezed (flush with the video) */
+    .modal-w { width: min(64rem, 100%, calc((100vh - 13rem) * 16 / 9)); }
 
     /* Still image shown over the video while YouTube's start-up UI (pause icon) is on screen */
     .bg-poster { z-index: 2; object-fit: cover; opacity: 1; transition: opacity 0.7s ease; }
@@ -428,7 +432,7 @@
   <div id="screeningModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-8 opacity-0 pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     
     <!-- Top Modal Bar -->
-    <div class="w-full max-w-5xl flex items-center justify-between mb-4">
+    <div class="modal-w flex items-center justify-between mb-4">
       <div>
         <span id="modalRole" class="text-[11px] uppercase tracking-[0.24em] text-white/50 font-display block">ROLE</span>
         <h2 id="modalTitle" class="font-display text-xl sm:text-2xl font-medium text-white tracking-tight">Project Title</h2>
@@ -441,12 +445,12 @@
     </div>
 
     <!-- 16:9 Responsive YouTube Embed Frame -->
-    <div class="w-full max-w-5xl aspect-video rounded-2xl overflow-hidden bg-black border border-white/15 shadow-2xl relative">
+    <div class="modal-w flex-none aspect-video rounded-2xl overflow-hidden bg-black ring-1 ring-white/15 shadow-2xl relative">
       <iframe id="modalIframe" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
 
     <!-- Modal Bottom Prev/Next Controls -->
-    <div class="w-full max-w-5xl flex items-center justify-between mt-4 text-xs font-display uppercase tracking-[0.18em] text-white/65">
+    <div class="modal-w flex items-center justify-between mt-4 text-xs font-display uppercase tracking-[0.18em] text-white/65">
       <button onclick="navigateModalProject(-1)" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
         <span>&#8592;</span> Previous
       </button>
@@ -981,14 +985,26 @@
 
       btn.disabled = true;
       btn.textContent = 'Sending...';
+      feedback.textContent = '';
 
-      setTimeout(() => {
-        feedback.textContent = 'Thank you! Your message is sent successfully!';
+      const form = this;
+      const params = { name, email, subject, message };
+      const send = (window.emailjs)
+        ? emailjs.send('service_pvdxvyr', 'template_u2q6za8', params, { publicKey: 't-Ki_GhehNJh9d-XS' })
+        : Promise.reject(new Error('EmailJS not loaded'));
+
+      send.then(() => {
+        feedback.textContent = "Thank you! I'll be in touch soon.";
         feedback.className = 'text-xs tracking-[-0.01em] text-emerald-400';
+        form.reset();
+      }).catch((err) => {
+        console.error('EmailJS error:', err);
+        feedback.textContent = 'Something went wrong. Please email me directly.';
+        feedback.className = 'text-xs tracking-[-0.01em] text-rose-400';
+      }).finally(() => {
         btn.disabled = false;
         btn.textContent = 'Send Message';
-        this.reset();
-      }, 600);
+      });
     });
 
     // Initialize on Window Load
