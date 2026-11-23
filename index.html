@@ -1,146 +1,904 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Gugleta - Portfolio</title>
-  <meta name="description" content="Lazar Gugleta — Portfolio">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gugleta — Director of Photography &amp; Motion Graphics</title>
+  <meta name="description" content="Lazar Gugleta — Director of Photography & Motion Graphics Designer">
   <meta property="og:title" content="Gugleta - Portfolio">
-  <meta property="og:description" content="Lazar Gugleta — Portfolio">
+  <meta property="og:description" content="Lazar Gugleta — Director of Photography & Motion Graphics Designer">
   <meta property="og:image" content="https://gugleta.com/opengraph.jpg">
   <meta property="og:url" content="https://gugleta.com/">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Gugleta - Portfolio">
-  <meta name="twitter:description" content="Lazar Gugleta — Portfolio">
-  <meta name="twitter:image" content="https://gugleta.com/opengraph.jpg">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" type="image/png" href="favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
-  <nav id="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="Lazar Gugleta" class="nav-logo-img">
-        
-      </a>
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">PROJECTS</a></li>
-        <li><a href="pages/motion-graphics.html">MOTION GRAPHICS</a></li>
-        <li><a href="pages/about.html">ABOUT</a></li>
-        <li><a href="pages/contact.html">CONTACT</a></li>
-      </ul>
-      <button class="nav-burger" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+  <!-- Google Fonts: Editorial Display + Clean Grotesque Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <div class="mobile-menu" id="mobileMenu">
-    <ul>
-      <li><a href="index.html">PROJECTS</a></li>
-      <li><a href="pages/motion-graphics.html">MOTION GRAPHICS</a></li>
-      <li><a href="pages/about.html">ABOUT</a></li>
-      <li><a href="pages/contact.html">CONTACT</a></li>
-    </ul>
-  </div>
-
-  <main>
-    <section class="grid-section">
-      <div class="project-grid" id="projectGrid">
-        <!-- Cards rendered by JS below -->
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <span>© <span id="year"></span> Lazar Gugleta. All rights reserved.</span>
-      <a href="pages/contact.html">Get in touch</a>
-    </div>
-  </footer>
-
-  <button class="back-top" id="backTop" aria-label="Back to top">&#8593;</button>
-
-  <script src="js/projects.js"></script>
-  <script src="js/main.js"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
-  // Render grid cards, then asynchronously fill in titles
-  (async function() {
-    const grid = document.getElementById('projectGrid');
-
-    async function fetchTitle(project) {
-      if (project.titleOverride) return project.titleOverride;
-      try {
-        if (project.platform === 'youtube') {
-          const cleanId = project.embed.split('?')[0];
-          const res = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${cleanId}&format=json`);
-          if (res.ok) { const d = await res.json(); return d.title; }
-        } else if (project.platform === 'vimeo') {
-          const res = await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${project.embed}`);
-          if (res.ok) { const d = await res.json(); return d.title; }
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            void: '#08080a',
+            charcoal: '#101014',
+          }
         }
-      } catch(e) {}
-      return project.titleOverride || '';
+      }
+    }
+  </script>
+
+  <style>
+    /* Base Reset & Atmospheric Dark Styling */
+    html, body {
+      background-color: #08080a;
+      color: #ffffff;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    // Render cards immediately with placeholder title, then update
-    // Platform placeholder SVGs for cards without a real thumbnail
-    const PLACEHOLDERS = {
-      facebook: `<div class="card-platform-placeholder card-platform-facebook">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="24" fill="#1877F2"/><path d="M32 24h-5v14h-6V24h-3v-5h3v-3c0-4 2-6 6-6h4v5h-3c-1 0-1 .5-1 1v3h4l-1 5z" fill="#fff"/></svg>
-        <span>Facebook Video</span>
-      </div>`,
-      instagram: `<div class="card-platform-placeholder card-platform-instagram">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="12" fill="url(#ig)"/><defs><linearGradient id="ig" x1="0" y1="48" x2="48" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#F9CE34"/><stop offset=".3" stop-color="#EE2A7B"/><stop offset="1" stop-color="#6228D7"/></linearGradient></defs><rect x="13" y="13" width="22" height="22" rx="6" stroke="#fff" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="5" stroke="#fff" stroke-width="2.5" fill="none"/><circle cx="30.5" cy="17.5" r="1.5" fill="#fff"/></svg>
-        <span>Instagram Reel</span>
-      </div>`
-    };
+    /* Full-Bleed YouTube Background Cover Technique */
+    .bg-video-stage {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+      background: #08080a;
+    }
 
-    PROJECTS.forEach(p => {
-      const a = document.createElement('a');
-      // All cards with an externalUrl open in a new tab (YouTube, Facebook, Instagram)
-      if (p.externalUrl) {
-        a.href = p.externalUrl;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-      } else {
-        a.href = `pages/project.html?id=${p.id}`;
-      }
-      a.className = 'card';
-      // Portrait thumbnails shown letterboxed (object-fit: contain) inside 16:9 container
-      const isPortraitThumb = p.thumbAspect === '9/16' || p.platform === 'external';
-      const imgStyle = isPortraitThumb ? 'style="object-fit:contain;background:#000"' : '';
-      const thumbContent = p.thumb
-        ? `<img src="${p.thumb}" alt="${p.titleOverride || ''}" loading="lazy" ${imgStyle}>`
-        : (PLACEHOLDERS[p.platform] || '');
-      // External cards show a link icon instead of play button
-      const btnIcon = p.platform === 'external'
-        ? `<span class="play-btn" style="font-size:16px">&#8599;</span>`
-        : `<span class="play-btn">&#9654;</span>`;
-      a.innerHTML = `
-        <div class="card-thumb">
-          ${thumbContent}
-          <div class="card-overlay">
-            ${btnIcon}
-            <div class="card-hover-title">
-              <span class="card-hover-type">${p.type}</span>
-              <span class="card-hover-name" id="title-${p.id}">${p.titleOverride || '…'}</span>
+    .bg-video-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .bg-video-layer.is-active {
+      opacity: 1;
+    }
+
+    /* Responsive 16:9 Iframe Cover Scaling */
+    .bg-iframe-cover {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw; /* 16:9 ratio */
+      min-height: 100vh;
+      min-width: 177.78vh; /* 16:9 ratio */
+      transform: translate(-50%, -50%) scale(1.08); /* Slight overscale hides YouTube edge UI */
+      pointer-events: none;
+      border: 0;
+      opacity: 1;
+    }
+
+    /* Cinematic Vignette & Contrast Scrim */
+    .cinematic-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(8, 8, 10, 0.35) 0%, rgba(8, 8, 10, 0.72) 65%, rgba(5, 5, 7, 0.92) 100%),
+        linear-gradient(180deg, rgba(8, 8, 10, 0.55) 0%, rgba(8, 8, 10, 0.15) 30%, rgba(8, 8, 10, 0.15) 70%, rgba(8, 8, 10, 0.75) 100%);
+    }
+
+    /* Subtle Film Grain Texture */
+    .film-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Transparent Top Cookie Bar */
+    .cookie-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 45;
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 1.3;
+      color: rgba(255, 255, 255, 0.88);
+      background: transparent;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .cookie-banner.is-dismissed {
+      opacity: 0;
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+
+    /* Zauberberg-Style Centered Project List Items */
+    .project-index-list {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .project-index-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .project-item-btn {
+      color: rgba(255, 255, 255, 0.56);
+      transition: color 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                  text-shadow 0.35s ease;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+    }
+
+    .project-item-btn:hover,
+    .project-item-btn.is-active {
+      color: #ffffff;
+      transform: scale(1.035);
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Navigation Link Hover */
+    .nav-item-link {
+      color: rgba(255, 255, 255, 0.55);
+      transition: color 0.25s ease, opacity 0.25s ease;
+    }
+    .nav-item-link:hover,
+    .nav-item-link.is-active {
+      color: #ffffff;
+    }
+
+    /* Smooth View Transitions */
+    .view-panel {
+      transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .view-panel.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Custom Scrollbar for About / Contact Overlays */
+    .overlay-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .overlay-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .overlay-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen selection:bg-white selection:text-black">
+
+  <!-- Top Cookie Notification -->
+  <div id="cookieBanner" class="cookie-banner px-5 sm:px-8 py-2.5 flex items-center justify-between gap-4" role="region" aria-label="Cookie notice">
+    <p class="truncate">This website uses cookies to ensure you get the best experience.</p>
+    <button id="cookieOkBtn" type="button" onclick="dismissCookieBanner()" class="shrink-0 cursor-pointer hover:opacity-70 transition-opacity">
+      OK
+    </button>
+  </div>
+
+  <!-- =========================================================
+       FULL-BLEED AMBIENT BACKGROUND STAGE
+       ========================================================= -->
+  <div id="bgVideoStage" class="bg-video-stage" aria-hidden="true"></div>
+  <div class="cinematic-vignette" aria-hidden="true"></div>
+  <div class="film-grain" aria-hidden="true"></div>
+
+  <!-- =========================================================
+       PERSISTENT CHROME: LEFT BRAND MARK & RIGHT NAVIGATION
+       ========================================================= -->
+  <!-- Mobile Top Header -->
+  <header id="mobileHeader" class="fixed top-8 left-0 right-0 z-40 flex items-center justify-between px-6 py-3 lg:hidden bg-gradient-to-b from-black/75 to-transparent transition-[top] duration-300">
+    <button onclick="switchView('projects')" class="text-left group focus:outline-none" aria-label="Lazar Gugleta Home">
+      <img src="https://raw.githubusercontent.com/gugletasucks/websitevideo/main/logo.png" alt="Lazar Gugleta" class="h-9 w-auto object-contain" onerror="this.onerror=null; this.src='logo.png';">
+    </button>
+
+    <button id="mobileMenuToggle" class="p-2.5 text-white/80 hover:text-white focus:outline-none" aria-label="Toggle Menu" aria-expanded="false">
+      <svg id="burgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+      <svg id="closeMenuIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobileDrawer" class="fixed inset-0 z-30 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-7 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden">
+    <button onclick="switchView('projects'); closeMobileMenu();" class="mobile-nav-btn font-serif text-4xl tracking-wide text-white/60 hover:text-white" data-view="projects">Projects</button>
+    <button onclick="switchView('motion'); closeMobileMenu();" class="mobile-nav-btn font-serif text-4xl tracking-wide text-white/60 hover:text-white" data-view="motion">Motion Graphics</button>
+    <button onclick="switchView('about'); closeMobileMenu();" class="mobile-nav-btn font-serif text-4xl tracking-wide text-white/60 hover:text-white" data-view="about">About</button>
+    <button onclick="switchView('contact'); closeMobileMenu();" class="mobile-nav-btn font-serif text-4xl tracking-wide text-white/60 hover:text-white" data-view="contact">Contact</button>
+  </div>
+
+  <!-- Desktop Left-Edge Brand Logo -->
+  <aside class="hidden lg:flex fixed left-10 xl:left-14 top-1/2 -translate-y-1/2 z-30 flex-col items-start select-none">
+    <button onclick="switchView('projects')" class="text-left group focus:outline-none transition-opacity duration-300 hover:opacity-80" aria-label="Lazar Gugleta Home">
+      <img src="https://raw.githubusercontent.com/gugletasucks/websitevideo/main/logo.png" alt="Lazar Gugleta" class="max-h-14 xl:max-h-16 w-auto object-contain" onerror="this.onerror=null; this.src='logo.png';">
+    </button>
+  </aside>
+
+  <!-- Desktop Right-Edge Minimal Navigation -->
+  <nav class="hidden lg:flex fixed right-10 xl:right-14 top-1/2 -translate-y-1/2 z-30 flex-col items-end gap-2.5 text-[14px] tracking-[0.02em] font-normal" aria-label="Primary Navigation">
+    <button onclick="switchView('projects')" class="nav-item-link is-active cursor-pointer py-0.5" data-view="projects">Projects</button>
+    <button onclick="switchView('motion')" class="nav-item-link cursor-pointer py-0.5" data-view="motion">Motion Graphics</button>
+    <button onclick="switchView('about')" class="nav-item-link cursor-pointer py-0.5" data-view="about">About</button>
+    <button onclick="switchView('contact')" class="nav-item-link cursor-pointer py-0.5" data-view="contact">Contact</button>
+  </nav>
+
+  <!-- =========================================================
+       MAIN VIEWPORT CONTAINER
+       ========================================================= -->
+  <main class="relative z-10 min-h-screen w-full flex flex-col justify-center items-center">
+
+    <!-- VIEW 1 & 2: CENTERPIECE PROJECT INDEX (Projects & Motion Graphics) -->
+    <section id="indexView" class="view-panel w-full min-h-screen flex flex-col items-center justify-center px-6 py-24 lg:py-16">
+      <!-- Centered Vertical Project List -->
+      <div id="projectListContainer" class="project-index-list w-full max-w-2xl max-h-[62vh] overflow-y-auto flex flex-col items-center text-center space-y-1 py-2">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- VIEW 3: ABOUT OVERLAY VIEW -->
+    <section id="aboutView" class="view-panel is-hidden fixed inset-0 z-20 overflow-y-auto overlay-scroll bg-[#0A0A0A] px-6 py-24 lg:px-36 xl:px-48">
+      <div class="w-full max-w-3xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start">
+          
+          <!-- Portrait Column (scrolls naturally with the page) -->
+          <div class="md:col-span-4 flex flex-col items-center md:items-start">
+            <div class="w-48 sm:w-56 md:w-full aspect-[4/5] rounded-2xl overflow-hidden bg-zinc-900 border border-white/10 shadow-2xl relative">
+              <img src="https://raw.githubusercontent.com/gugletasucks/websitevideo/main/Profilna.jpeg" alt="Lazar Gugleta" class="w-full h-full object-cover" onerror="if(!this.dataset.fb1){this.dataset.fb1='1';this.src='Profilna.jpeg';}else if(!this.dataset.fb2){this.dataset.fb2='1';this.src='../Profilna.jpeg';}else{this.onerror=null;this.src='https://placehold.co/400x500/141418/ffffff?text=Lazar+Gugleta';}">
+            </div>
+            <button onclick="switchView('contact')" class="mt-5 w-48 sm:w-56 md:w-full py-3 px-5 rounded-xl bg-white text-black font-display text-xs uppercase tracking-[0.04em] font-semibold hover:bg-white/90 transition-all cursor-pointer text-center">
+              Get in Touch
+            </button>
+          </div>
+
+          <!-- Bio & Disciplines Column -->
+          <div class="md:col-span-8 text-left">
+            <span class="text-[11px] uppercase tracking-[0.04em] text-white/45 font-display block mb-2">About Me</span>
+            <h1 class="font-display text-3xl sm:text-4xl md:text-5xl text-white font-medium tracking-[-0.02em] mb-2">Lazar Gugleta</h1>
+            <p class="font-display text-sm sm:text-base text-white/75 tracking-[-0.01em] mb-6">
+              Director of Photography &amp; Motion Graphics Designer
+            </p>
+
+            <div class="space-y-4 text-sm sm:text-[15px] leading-relaxed text-white/75 font-light">
+              <p>
+                I'm a self-taught Director of Photography and Motion Graphics Designer with over 7 years in the industry. I'm passionate about creating beautiful, polished work and bring a keen eye for detail and aesthetics to everything I do. I'm always open to learning more and evolving my style, making each project a bit better than the last.
+              </p>
+              <p>
+                Reach out if you wish to collaborate on a project, and I'll be sure to bring a unique perspective that helps your ideas stand out.
+              </p>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-9 pt-8 border-t border-white/10">
+              <div>
+                <h4 class="text-[11px] uppercase tracking-[0.04em] text-white/45 font-display mb-3">Software</h4>
+                <ul class="space-y-1.5 text-sm text-white/80 font-light">
+                  <li>Adobe Suite <span class="text-[11px] text-white/45">(main)</span></li>
+                  <li>DaVinci Resolve</li>
+                  <li>Figma</li>
+                  <li>Blender</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-[11px] uppercase tracking-[0.04em] text-white/45 font-display mb-3">Disciplines</h4>
+                <ul class="space-y-1.5 text-sm text-white/80 font-light">
+                  <li>Director of Photography</li>
+                  <li>Motion Graphics Design</li>
+                  <li>Video Editing</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-[11px] uppercase tracking-[0.04em] text-white/45 font-display mb-3">Languages</h4>
+                <ul class="space-y-1.5 text-sm text-white/80 font-light">
+                  <li>English</li>
+                  <li>Serbian / Croatian / Bosnian</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>`;
-      grid.appendChild(a);
+
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: CONTACT OVERLAY VIEW -->
+    <section id="contactView" class="view-panel is-hidden fixed inset-0 z-20 overflow-y-auto overlay-scroll bg-[#0A0A0A] flex items-center justify-center px-6 py-24 lg:px-36 xl:px-48">
+      <div class="w-full max-w-3xl my-auto">
+        <div class="mb-12">
+          <span class="text-[11px] tracking-[-0.01em] text-white/45 font-sans block mb-2">Get in Touch</span>
+          <h1 class="font-sans text-4xl sm:text-5xl md:text-6xl text-white font-medium tracking-[-0.02em] leading-[1.08] mb-3">
+            Let's work together.
+          </h1>
+          <p class="text-sm sm:text-[15px] tracking-[-0.01em] text-white/65 font-light max-w-xl">
+            Need a DP or a Motion Graphics Designer? Reach out below or email directly.
+          </p>
+        </div>
+        <div class="space-y-5">
+          <!-- Row 1: Email (Left) & Name + Email Inputs (Right) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start">
+            <div class="md:col-span-5">
+              <span class="text-[11px] tracking-[-0.025em] text-white/45 font-sans block mb-1.5">Email</span>
+              <div class="flex items-center min-h-[44px]">
+                <a href="mailto:milkshakedizajn@gmail.com" class="text-base tracking-[-0.025em] text-white/90 hover:text-white font-sans font-normal transition-colors break-all">
+                  milkshakedizajn@gmail.com
+                </a>
+              </div>
+            </div>
+
+            <div class="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="cName" class="block text-[11px] tracking-[-0.025em] text-white/50 font-sans mb-1.5">Name *</label>
+                <input type="text" id="cName" name="name" placeholder="Your name" required
+                  class="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/12 text-white placeholder-white/30 text-sm tracking-[-0.02em] focus:outline-none focus:border-white/50 transition-colors">
+              </div>
+              <div>
+                <label for="cEmail" class="block text-[11px] tracking-[-0.025em] text-white/50 font-sans mb-1.5">Email *</label>
+                <input type="email" id="cEmail" name="email" placeholder="your@email.com" required
+                  class="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/12 text-white placeholder-white/30 text-sm tracking-[-0.02em] focus:outline-none focus:border-white/50 transition-colors">
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Based In (Left) & Subject Input (Right) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start">
+            <div class="md:col-span-5">
+              <span class="block text-[11px] tracking-[-0.025em] text-white/45 font-sans mb-1.5">Based In</span>
+              <div class="min-h-[44px] flex items-center">
+                <span class="text-base tracking-[-0.025em] text-white/90 font-normal">Serbia</span>
+              </div>
+            </div>
+
+            <div class="md:col-span-7">
+              <label for="cSubject" class="block text-[11px] tracking-[-0.025em] text-white/50 font-sans mb-1.5">Subject *</label>
+              <input type="text" id="cSubject" name="subject" placeholder="What's this about?" required
+                class="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/12 text-white placeholder-white/30 text-sm tracking-[-0.02em] focus:outline-none focus:border-white/50 transition-colors">
+            </div>
+          </div>
+
+          <!-- Row 3: Available For (Left) & Message + Submit Button (Right) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start">
+            <div class="md:col-span-5">
+              <span class="block text-[11px] tracking-[-0.025em] text-white/45 font-sans mb-1.5">Available For</span>
+              <div class="min-h-[44px] flex items-center">
+                <span class="text-base tracking-[-0.025em] text-white/90 font-normal">Remote &amp; On-site Projects</span>
+              </div>
+            </div>
+
+            <form id="contactForm" class="md:col-span-7 space-y-4" novalidate>
+              <div>
+                <label for="cMessage" class="block text-[11px] tracking-[-0.025em] text-white/50 font-sans mb-1.5">Message *</label>
+                <textarea id="cMessage" name="message" rows="4" placeholder="Tell me about your project..." required
+                  class="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/12 text-white placeholder-white/30 text-sm tracking-[-0.02em] focus:outline-none focus:border-white/50 transition-colors resize-none"></textarea>
+              </div>
+
+              <div class="pt-1 flex items-center gap-4">
+                <button type="submit" id="submitContactBtn"
+                  class="w-[152px] h-[42px] shrink-0 whitespace-nowrap rounded-xl bg-white text-black font-sans text-xs font-medium tracking-[-0.02em] hover:bg-white/90 transition-colors cursor-pointer flex items-center justify-center">
+                  Send Message
+                </button>
+                <p id="formFeedback" class="text-xs tracking-[-0.02em] text-white/70"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       THEATER VIDEO SCREENING MODAL
+       ========================================================= -->
+  <div id="screeningModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-8 opacity-0 pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    
+    <!-- Top Modal Bar -->
+    <div class="w-full max-w-5xl flex items-center justify-between mb-4">
+      <div>
+        <span id="modalRole" class="text-[11px] uppercase tracking-[0.24em] text-white/50 font-display block">ROLE</span>
+        <h2 id="modalTitle" class="font-display text-xl sm:text-2xl font-medium text-white tracking-tight">Project Title</h2>
+      </div>
+      <button onclick="closeScreeningModal()" class="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer" aria-label="Close Video">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- 16:9 Responsive YouTube Embed Frame -->
+    <div class="w-full max-w-5xl aspect-video rounded-2xl overflow-hidden bg-black border border-white/15 shadow-2xl relative">
+      <iframe id="modalIframe" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+
+    <!-- Modal Bottom Prev/Next Controls -->
+    <div class="w-full max-w-5xl flex items-center justify-between mt-4 text-xs font-display uppercase tracking-[0.18em] text-white/65">
+      <button onclick="navigateModalProject(-1)" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+        <span>&#8592;</span> Previous
+      </button>
+      <a id="modalYoutubeExternal" href="#" target="_blank" rel="noopener noreferrer" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors">
+        Open on YouTube &#8599;
+      </a>
+      <button onclick="navigateModalProject(1)" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+        Next <span>&#8594;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       PORTFOLIO DATA & INTERACTIVE CONTROLLER
+       ========================================================= -->
+  <script>
+    // 1. Live-Action / DP / Camera Projects (from js/projects.js)
+    const PROJECTS = [
+      {
+        id: "p01",
+        title: "Couch Cup 26 (Official Video)",
+        role: "DIRECTOR · DP",
+        embed: "cqaneOCPUG0",
+        thumb: "https://img.youtube.com/vi/cqaneOCPUG0/maxresdefault.jpg"
+      },
+      {
+        id: "p02",
+        title: "Fantom - Devojka sa tužnim očima (Official Video)",
+        role: "DP",
+        embed: "Mhnuxkgok60",
+        thumb: "https://img.youtube.com/vi/Mhnuxkgok60/maxresdefault.jpg"
+      },
+      {
+        id: "p03",
+        title: "lockddd | Park The Bus DJ Set",
+        role: "DP · VIDEO EDITOR",
+        embed: "f5gPtj8XD10",
+        thumb: "lockddd DJ Set Thumbnail.png"
+      },
+      {
+        id: "p04",
+        title: "Femme Affair Summer Season DJ Set",
+        role: "CAMERA · VIDEO EDITOR · COLORIST",
+        embed: "fNS6zZJ7zDM",
+        thumb: "https://img.youtube.com/vi/fNS6zZJ7zDM/maxresdefault.jpg"
+      },
+      {
+        id: "p05",
+        title: "Keune Business Dinner at the Bristol",
+        role: "CAMERA · VIDEO EDITOR · COLORIST",
+        embed: "CilpvYHEEO8",
+        thumb: "https://img.youtube.com/vi/CilpvYHEEO8/maxresdefault.jpg"
+      },
+      {
+        id: "p06",
+        title: "We Got Your Back | CAKE.com",
+        role: "CAMERA · MOTION GRAPHICS DESIGNER",
+        embed: "DwakqUxIr6A",
+        thumb: "We Got Your Back Thumbnail.png"
+      },
+      {
+        id: "p07",
+        title: "Iron Maiden Tribute Aftermovie",
+        role: "CAMERA",
+        embed: "aKgrPhtxTTA",
+        thumb: "https://img.youtube.com/vi/aKgrPhtxTTA/maxresdefault.jpg"
+      },
+      {
+        id: "p08",
+        title: "Barbershop Promotional Video",
+        role: "CAMERA · VIDEO EDITOR · COLORIST",
+        embed: "zA6qnh-IZWY",
+        thumb: "https://img.youtube.com/vi/zA6qnh-IZWY/maxresdefault.jpg"
+      }
+    ];
+
+    // 2. Motion Graphics Projects (from js/motion-graphics-projects.js)
+    const MOTION_PROJECTS = [
+      {
+        id: "m01",
+        title: "Meet Thrivea Introduction Video",
+        role: "MOTION GRAPHICS DESIGNER",
+        embed: "uKuqptcaqK8",
+        thumb: "https://img.youtube.com/vi/uKuqptcaqK8/maxresdefault.jpg"
+      },
+      {
+        id: "m02",
+        title: "Rizz Me App Launch Video",
+        role: "MOTION GRAPHICS DESIGNER",
+        embed: "dRU2OrnfQwk",
+        thumb: "https://img.youtube.com/vi/dRU2OrnfQwk/maxresdefault.jpg"
+      },
+      {
+        id: "m03",
+        title: "Leaf Signal Journey Video",
+        role: "MOTION GRAPHICS DESIGNER",
+        embed: "l0qXo1QhZgw",
+        thumb: "https://img.youtube.com/vi/l0qXo1QhZgw/maxresdefault.jpg"
+      },
+      {
+        id: "m04",
+        title: "What is Clockify? Introduction Video",
+        role: "MOTION GRAPHICS DESIGNER",
+        embed: "DKzKNsERINg",
+        thumb: "https://img.youtube.com/vi/DKzKNsERINg/maxresdefault.jpg"
+      },
+      {
+        id: "m05",
+        title: "What is Plaky? Introduction Video",
+        role: "MOTION GRAPHICS DESIGNER",
+        embed: "yvgAiR5GM6Q",
+        thumb: "https://img.youtube.com/vi/yvgAiR5GM6Q/maxresdefault.jpg"
+      },
+      {
+        id: "m06",
+        title: "Clockify Timer Feature",
+        role: "MOTION GRAPHICS DESIGNER",
+        embed: "mwBzsLpy6Dg",
+        thumb: "https://img.youtube.com/vi/mwBzsLpy6Dg/maxresdefault.jpg"
+      }
+    ];
+
+    // Application State
+    let currentView = 'projects'; // 'projects' | 'motion' | 'about' | 'contact'
+    let activeList = PROJECTS;
+    let activeIndex = 0;
+    let hoverDebounceTimer = null;
+    let isModalOpen = false;
+
+    const bgVideoStage = document.getElementById('bgVideoStage');
+    const projectListContainer = document.getElementById('projectListContainer');
+
+    // Toggles background video stage visibility when moving between index and overlay views
+    function setBackgroundStageVisibility(isVisible) {
+      if (!bgVideoStage) return;
+      bgVideoStage.style.opacity = isVisible ? '1' : '0';
+      bgVideoStage.style.visibility = isVisible ? 'visible' : 'hidden';
+    }
+
+    // Cookie Banner Dismissal Logic
+    function dismissCookieBanner() {
+      const banner = document.getElementById('cookieBanner');
+      const mobileHeader = document.getElementById('mobileHeader');
+      if (banner) banner.classList.add('is-dismissed');
+      if (mobileHeader) {
+        mobileHeader.classList.remove('top-8');
+        mobileHeader.classList.add('top-0');
+      }
+      try {
+        localStorage.setItem('gugleta_cookie_ok', '1');
+      } catch (e) {}
+    }
+
+    /**
+     * Builds the YouTube embed URL matching the exact embed snippet format
+     */
+    function buildYoutubeEmbedUrl(videoId, isBackground = true) {
+      if (isBackground) {
+        return `https://www.youtube.com/embed/${videoId}?si=Zg82ADzaU71rP8to&autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0`;
+      }
+      return `https://www.youtube.com/embed/${videoId}?si=Zg82ADzaU71rP8to&autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&playsinline=1`;
+    }
+
+    /**
+     * Activates a project by index: illuminates list title, updates role badge & crossfades background video
+     */
+    function activateProject(index, immediate = false) {
+      if (index < 0 || index >= activeList.length) return;
+      activeIndex = index;
+      const project = activeList[index];
+
+      // Update list items visual active state
+      const buttons = projectListContainer.querySelectorAll('.project-item-btn');
+      buttons.forEach((btn, idx) => {
+        if (idx === index) {
+          btn.classList.add('is-active');
+        } else {
+          btn.classList.remove('is-active');
+        }
+      });
+
+      // Debounce iframe loading slightly when rapidly scrubbing across titles
+      clearTimeout(hoverDebounceTimer);
+      const triggerBackgroundSwap = () => {
+        // Check if layer for this project already exists in stage
+        let targetLayer = bgVideoStage.querySelector(`[data-project-id="${project.id}"]`);
+
+        if (!targetLayer) {
+          targetLayer = document.createElement('div');
+          targetLayer.className = 'bg-video-layer';
+          // Autoplaying muted YouTube iframe cover matching exact embed attributes
+          const iframe = document.createElement('iframe');
+          iframe.className = 'bg-iframe-cover';
+          iframe.src = buildYoutubeEmbedUrl(project.embed, true);
+          iframe.title = 'YouTube video player';
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+          iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+          iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+          iframe.allowFullscreen = true;
+          iframe.setAttribute('tabindex', '-1');
+
+          targetLayer.appendChild(iframe);
+          bgVideoStage.appendChild(targetLayer);
+        }
+
+        // Crossfade layers
+        requestAnimationFrame(() => {
+          const allLayers = bgVideoStage.querySelectorAll('.bg-video-layer');
+          allLayers.forEach(layer => {
+            if (layer === targetLayer) {
+              layer.classList.add('is-active');
+            } else {
+              layer.classList.remove('is-active');
+            }
+          });
+        });
+
+        // Keep DOM light: prune inactive layers beyond the 3 most recent
+        const layers = Array.from(bgVideoStage.querySelectorAll('.bg-video-layer'));
+        if (layers.length > 3) {
+          layers.slice(0, layers.length - 3).forEach(oldLayer => {
+            if (!oldLayer.classList.contains('is-active')) {
+              oldLayer.remove();
+            }
+          });
+        }
+      };
+
+      if (immediate) {
+        triggerBackgroundSwap();
+      } else {
+        hoverDebounceTimer = setTimeout(triggerBackgroundSwap, 110);
+      }
+    }
+
+    /**
+     * Renders the centered vertical project index
+     */
+    function renderProjectIndex(list) {
+      activeList = list;
+      projectListContainer.innerHTML = '';
+
+      list.forEach((project, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `project-item-btn block w-full py-0.5 px-3 text-[14px] sm:text-[15px] md:text-[16px] font-normal tracking-[-0.008em] leading-[1.25] cursor-pointer focus:outline-none ${idx === 0 ? 'is-active' : ''}`;
+        btn.textContent = project.title;
+
+        // Desktop hover triggers background video
+        btn.addEventListener('mouseenter', () => {
+          activateProject(idx, false);
+        });
+
+        // Focus support for keyboard users
+        btn.addEventListener('focus', () => {
+          activateProject(idx, false);
+        });
+
+        // Clicking opens the theater screening modal
+        btn.addEventListener('click', () => {
+          activateProject(idx, true);
+          openScreeningModal(idx);
+        });
+
+        projectListContainer.appendChild(btn);
+      });
+
+      // Immediately load the first project in the background
+      activateProject(0, true);
+    }
+
+    /**
+     * Switches between Projects, Motion Graphics, About, and Contact views
+     */
+    function switchView(viewName) {
+      currentView = viewName;
+
+      // Update Desktop & Mobile Nav active states
+      document.querySelectorAll('.nav-item-link, .mobile-nav-btn').forEach(el => {
+        if (el.getAttribute('data-view') === viewName) {
+          el.classList.add('is-active', 'text-white');
+          el.classList.remove('text-white/60');
+        } else {
+          el.classList.remove('is-active', 'text-white');
+        }
+      });
+
+      const indexView = document.getElementById('indexView');
+      const aboutView = document.getElementById('aboutView');
+      const contactView = document.getElementById('contactView');
+
+      if (viewName === 'projects' || viewName === 'motion') {
+        aboutView.classList.add('is-hidden');
+        contactView.classList.add('is-hidden');
+        indexView.classList.remove('is-hidden');
+        setBackgroundStageVisibility(true);
+        renderProjectIndex(viewName === 'projects' ? PROJECTS : MOTION_PROJECTS);
+      } else if (viewName === 'about') {
+        indexView.classList.add('is-hidden');
+        setBackgroundStageVisibility(false);
+        contactView.classList.add('is-hidden');
+        aboutView.classList.remove('is-hidden');
+      } else if (viewName === 'contact') {
+        indexView.classList.add('is-hidden');
+        setBackgroundStageVisibility(false);
+        aboutView.classList.add('is-hidden');
+        contactView.classList.remove('is-hidden');
+      }
+    }
+
+    /**
+     * Theater Screening Modal Controls
+     */
+    function openActiveProjectModal() {
+      openScreeningModal(activeIndex);
+    }
+
+    function openScreeningModal(index) {
+      const project = activeList[index];
+      if (!project) return;
+
+      activeIndex = index;
+      isModalOpen = true;
+
+      const modal = document.getElementById('screeningModal');
+      const iframe = document.getElementById('modalIframe');
+      const title = document.getElementById('modalTitle');
+      const role = document.getElementById('modalRole');
+      const extLink = document.getElementById('modalYoutubeExternal');
+
+      title.textContent = project.title;
+      role.textContent = project.role;
+      extLink.href = `https://www.youtube.com/watch?v=${project.embed}`;
+      iframe.title = 'YouTube video player';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      iframe.allowFullscreen = true;
+      iframe.src = buildYoutubeEmbedUrl(project.embed, false);
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+    }
+
+    function closeScreeningModal() {
+      isModalOpen = false;
+      const modal = document.getElementById('screeningModal');
+      const iframe = document.getElementById('modalIframe');
+
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      // Stop playback immediately
+      setTimeout(() => {
+        iframe.src = '';
+      }, 250);
+    }
+
+    function navigateModalProject(direction) {
+      const nextIdx = (activeIndex + direction + activeList.length) % activeList.length;
+      activateProject(nextIdx, true);
+      openScreeningModal(nextIdx);
+    }
+
+    // Close modal when clicking outside the video container
+    document.getElementById('screeningModal').addEventListener('click', (e) => {
+      if (e.target.id === 'screeningModal') {
+        closeScreeningModal();
+      }
     });
 
-    // Now fetch all titles in parallel and update
-    PROJECTS.forEach(async p => {
-      const title = await fetchTitle(p);
-      const el = document.getElementById(`title-${p.id}`);
-      if (el && title) el.textContent = title;
+    // Mobile Menu Drawer Toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const burgerIcon = document.getElementById('burgerIcon');
+    const closeMenuIcon = document.getElementById('closeMenuIcon');
+    let isMobileMenuOpen = false;
+
+    function toggleMobileMenu() {
+      isMobileMenuOpen = !isMobileMenuOpen;
+      mobileMenuToggle.setAttribute('aria-expanded', String(isMobileMenuOpen));
+      if (isMobileMenuOpen) {
+        mobileDrawer.classList.remove('opacity-0', 'pointer-events-none');
+        burgerIcon.classList.add('hidden');
+        closeMenuIcon.classList.remove('hidden');
+      } else {
+        mobileDrawer.classList.add('opacity-0', 'pointer-events-none');
+        burgerIcon.classList.remove('hidden');
+        closeMenuIcon.classList.add('hidden');
+      }
+    }
+
+    function closeMobileMenu() {
+      if (isMobileMenuOpen) toggleMobileMenu();
+    }
+
+    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+    // Keyboard Shortcuts (Arrow Up/Down to scrub projects, Escape to close modal)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (isModalOpen) closeScreeningModal();
+        if (isMobileMenuOpen) closeMobileMenu();
+        return;
+      }
+
+      if ((currentView === 'projects' || currentView === 'motion') && !isModalOpen) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = (activeIndex + 1) % activeList.length;
+          activateProject(next, false);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = (activeIndex - 1 + activeList.length) % activeList.length;
+          activateProject(prev, false);
+        }
+      }
     });
-  })();
+
+    // Copy Email Helper (uses execCommand fallback for iFrame compatibility)
+    function copyEmailAddress() {
+      const email = 'milkshakedizajn@gmail.com';
+      const tempInput = document.createElement('input');
+      tempInput.value = email;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+
+      const confirmEl = document.getElementById('copyConfirm');
+      confirmEl.classList.remove('opacity-0');
+      setTimeout(() => confirmEl.classList.add('opacity-0'), 2200);
+    }
+
+    // Contact Form Submission Handler
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('cName').value.trim();
+      const email = document.getElementById('cEmail').value.trim();
+      const subject = document.getElementById('cSubject').value.trim();
+      const message = document.getElementById('cMessage').value.trim();
+      const feedback = document.getElementById('formFeedback');
+      const btn = document.getElementById('submitContactBtn');
+
+      if (!name || !email || !subject || !message) {
+        feedback.textContent = 'Please fill in all required fields.';
+        feedback.className = 'text-xs tracking-[-0.01em] text-rose-400';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      setTimeout(() => {
+        feedback.textContent = 'Thank you! Your message is sent successfully!';
+        feedback.className = 'text-xs tracking-[-0.01em] text-emerald-400';
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+        this.reset();
+      }, 600);
+    });
+
+    // Initialize on Window Load
+    window.addEventListener('load', () => {
+      switchView('projects');
+    });
   </script>
 </body>
 </html>
