@@ -177,7 +177,9 @@
     @media (max-width: 1023.98px) {
       #indexView { touch-action: none; }
       #projectListContainer .project-item-btn { display: none; }
-      #projectListContainer .project-item-btn.is-active { display: block; animation: titleIn 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+      /* Title stays perfectly still on phones: no zoom, no slide, no box */
+      #projectListContainer .project-item-btn.is-active { display: block; animation: none; transform: none; transition: none; background: transparent; outline: none; box-shadow: none; }
+      #projectListContainer .project-item-btn { -webkit-tap-highlight-color: transparent; background: transparent; border: 0; -webkit-appearance: none; appearance: none; }
       .swipe-hint {
         display: flex; position: fixed; left: 0; right: 0; bottom: 34px; z-index: 15;
         flex-direction: column; align-items: center; gap: 6px; pointer-events: none;
