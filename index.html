@@ -87,6 +87,13 @@
       transform: translate(-50%, -50%) scale(1.08); /* Slight overscale hides YouTube edge UI */
       pointer-events: none;
       border: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Revealed only once YouTube reports the video is actually playing,
+       so its play button, loading spinner and title bar are never visible */
+    .bg-iframe-cover.is-playing {
       opacity: 1;
     }
 
@@ -590,11 +597,64 @@
     }
 
     /**
+     * Background video helper: loops via the YouTube IFrame API (instead of the
+     * playlist parameter, which makes YouTube show prev/pause/next buttons),
+     * keeps captions off, and only reveals the iframe once it is playing.
+     */
+    let ytApiPromise = null;
+    function loadYouTubeApi() {
+      if (ytApiPromise) return ytApiPromise;
+      ytApiPromise = new Promise((resolve) => {
+        if (window.YT && window.YT.Player) { resolve(window.YT); return; }
+        const previous = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          if (typeof previous === 'function') previous();
+          resolve(window.YT);
+        };
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.onerror = () => resolve(null);
+        document.head.appendChild(tag);
+      });
+      return ytApiPromise;
+    }
+
+    function setupBackgroundPlayer(iframe) {
+      // Safety net: only if the YouTube API itself is blocked/unavailable, show the iframe anyway
+      const revealFallback = setTimeout(() => {
+        if (!(window.YT && window.YT.Player)) iframe.classList.add('is-playing');
+      }, 6000);
+      loadYouTubeApi().then((YT) => {
+        if (!YT) { iframe.classList.add('is-playing'); return; }
+        if (!iframe.isConnected) return;
+        new YT.Player(iframe, {
+          events: {
+            onReady: (e) => {
+              e.target.mute();
+              e.target.playVideo();
+              try { e.target.unloadModule('captions'); } catch (err) {}
+              try { e.target.unloadModule('cc'); } catch (err) {}
+            },
+            onStateChange: (e) => {
+              if (e.data === YT.PlayerState.PLAYING) {
+                clearTimeout(revealFallback);
+                iframe.classList.add('is-playing');
+              } else if (e.data === YT.PlayerState.ENDED) {
+                e.target.seekTo(0);
+                e.target.playVideo();
+              }
+            }
+          }
+        });
+      });
+    }
+
+    /**
      * Builds the YouTube embed URL matching the exact embed snippet format
      */
     function buildYoutubeEmbedUrl(videoId, isBackground = true) {
       if (isBackground) {
-        return `https://www.youtube.com/embed/${videoId}?si=Zg82ADzaU71rP8to&autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0`;
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&cc_load_policy=0&disablekb=1&fs=0&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`;
       }
       return `https://www.youtube.com/embed/${videoId}?si=Zg82ADzaU71rP8to&autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&playsinline=1`;
     }
@@ -639,6 +699,7 @@
 
           targetLayer.appendChild(iframe);
           bgVideoStage.appendChild(targetLayer);
+          setupBackgroundPlayer(iframe);
         }
 
         // Crossfade layers
