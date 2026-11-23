@@ -222,6 +222,8 @@
     /* Phone contact page: contact details together on top, then the form fields in order */
     @media (max-width: 767.98px) {
       #contactView h1 { font-size: 2rem; }
+      /* 16px+ text in fields stops iPhones from zooming in when a field is tapped */
+      #contactView input, #contactView textarea { font-size: 16px; }
       #contactView > div > .mb-12 { margin-bottom: 26px; }
       #contactRows { display: flex; flex-direction: column; gap: 0; }
       #contactRows > div { display: contents; }
@@ -524,7 +526,7 @@
         <span>&#8592;</span> Previous
       </button>
       <a id="modalYoutubeExternal" href="#" target="_blank" rel="noopener noreferrer" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors">
-        Open on YouTube &#8599;
+        <span class="inline-flex items-center gap-2">Open on YouTube <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" /></svg></span>
       </a>
       <button onclick="navigateModalProject(1)" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
         Next <span>&#8594;</span>
