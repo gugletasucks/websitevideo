@@ -176,8 +176,8 @@
     .swipe-hint { display: none; }
     @media (max-width: 1023.98px) {
       #indexView { touch-action: none; }
-      .project-item-btn { display: none; }
-      .project-item-btn.is-active { display: block; animation: titleIn 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+      #projectListContainer .project-item-btn { display: none; }
+      #projectListContainer .project-item-btn.is-active { display: block; animation: titleIn 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
       .swipe-hint {
         display: flex; position: fixed; left: 0; right: 0; bottom: 34px; z-index: 15;
         flex-direction: column; align-items: center; gap: 6px; pointer-events: none;
@@ -196,7 +196,8 @@
       #mobileHeader { top: 0 !important; }
       body:has(#cookieBanner:not(.is-dismissed)) .swipe-hint-down { bottom: 78px; }
       /* Videos slide instead of cross-fading */
-      .bg-video-layer { opacity: 1 !important; transition: none; will-change: transform; }
+      .bg-video-layer { opacity: 1 !important; transition: none; will-change: transform; overflow: hidden; }
+      body[data-view="about"] #mobileHeader, body[data-view="contact"] #mobileHeader { background: #0A0A0A; }
       .bg-video-layer.settle { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
       .swipe-hint-up { top: 92px; bottom: auto; }
       .swipe-hint-up svg { animation-name: swipeBobUp; }
@@ -991,6 +992,7 @@
      */
     function switchView(viewName) {
       currentView = viewName;
+      document.body.dataset.view = viewName;
 
       // Update Desktop & Mobile Nav active states
       document.querySelectorAll('.nav-item-link, .mobile-nav-btn').forEach(el => {
