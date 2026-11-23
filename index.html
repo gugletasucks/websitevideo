@@ -91,6 +91,10 @@
       border: 0;
     }
 
+    /* Still image shown over the video while YouTube's start-up UI (pause icon) is on screen */
+    .bg-poster { z-index: 2; object-fit: cover; opacity: 1; transition: opacity 0.7s ease; }
+    .bg-poster.is-gone { opacity: 0; }
+
     /* Revealed only once YouTube reports the video is actually playing,
        so its play button, loading spinner and title bar are never visible */
     .bg-iframe-cover.is-playing {
@@ -659,17 +663,24 @@
       iframe.allowFullscreen = true;
       iframe.setAttribute('tabindex', '-1');
       layer.appendChild(iframe);
+      // Instant thumbnail on top of the video until YouTube's start-up UI is gone
+      const poster = document.createElement('img');
+      poster.className = 'bg-iframe-cover bg-poster';
+      poster.alt = '';
+      poster.src = `https://img.youtube.com/vi/${project.embed}/maxresdefault.jpg`;
+      poster.onerror = () => { poster.onerror = null; poster.src = `https://img.youtube.com/vi/${project.embed}/hqdefault.jpg`; };
+      layer.appendChild(poster);
       bgVideoStage.appendChild(layer);
+      const clearPoster = () => { poster.classList.add('is-gone'); setTimeout(() => poster.remove(), 800); };
 
-      const markReady = () => {
-        layer.classList.add('is-ready');
-        if (wantedBgProjectId === project.id) showLayer(layer);
-      };
+      const markReady = () => { layer.classList.add('is-ready'); };
+      // Hidden warm-up time (ms) from first frame until YouTube's pause icon is gone
+      const BG_CLEAR_MS = 4500;
       // If the YouTube API is blocked, still show the plain iframe
-      setTimeout(() => { if (!layer.classList.contains('is-ready') && !(window.YT && window.YT.Player)) markReady(); }, 8000);
+      setTimeout(() => { if (!(window.YT && window.YT.Player)) clearPoster(); }, 8000);
 
       loadYouTubeApi().then((YT) => {
-        if (!YT) { markReady(); return; }
+        if (!YT) { clearPoster(); return; }
         if (!iframe.isConnected) return;
         layer._player = new YT.Player(iframe, {
           events: {
@@ -682,6 +693,7 @@
                   // Playing (muted, hidden) = ready to be shown
                   layer._armed = true;
                   markReady();
+                  setTimeout(clearPoster, BG_CLEAR_MS);
                 }
               } else if (e.data === YT.PlayerState.ENDED) {
                 e.target.seekTo(0);
@@ -744,8 +756,7 @@
       clearTimeout(hoverDebounceTimer);
       const triggerBackgroundSwap = () => {
         const layer = ensureLayer(project);
-        if (layer.classList.contains('is-ready')) showLayer(layer);
-        // otherwise markReady() shows it as soon as it is buffered
+        showLayer(layer); // thumbnail covers it until the video is clean
       };
 
       if (immediate) {
