@@ -635,22 +635,10 @@
      * start-up UI (loading circle, pause icon, title) already happened off-screen.
      */
     function showLayer(layer) {
-      if (layer._player && layer._player.playVideo) {
-        try { layer._player.seekTo(0, true); layer._player.playVideo(); } catch (err) {}
-      }
+      // No play/pause/seek here: any state change makes YouTube flash its center icon.
       requestAnimationFrame(() => {
         bgVideoStage.querySelectorAll('.bg-video-layer').forEach(other => {
-          if (other === layer) {
-            other.classList.add('is-active');
-          } else if (other.classList.contains('is-active')) {
-            other.classList.remove('is-active');
-            // Pause the one we left once it has faded out
-            setTimeout(() => {
-              if (!other.classList.contains('is-active') && other._player && other._player.pauseVideo) {
-                try { other._player.pauseVideo(); } catch (err) {}
-              }
-            }, 1000);
-          }
+          other.classList.toggle('is-active', other === layer);
         });
       });
     }
@@ -691,9 +679,8 @@
               if (e.data === YT.PlayerState.PLAYING) {
                 disableCaptions(e.target);
                 if (!layer._armed) {
-                  // First frames rolled while hidden: park at 0:00, ready for instant play
+                  // Playing (muted, hidden) = ready to be shown
                   layer._armed = true;
-                  if (wantedBgProjectId !== project.id) { e.target.pauseVideo(); e.target.seekTo(0, true); }
                   markReady();
                 }
               } else if (e.data === YT.PlayerState.ENDED) {
