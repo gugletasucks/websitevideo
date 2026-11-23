@@ -472,6 +472,7 @@
       {
         id: "p01",
         title: "Couch Cup 2024",
+        modalTitle: "Couch Cup 26 (Official Video)",
         role: "DIRECTOR · DP",
         embed: "cqaneOCPUG0",
         thumb: "https://img.youtube.com/vi/cqaneOCPUG0/maxresdefault.jpg"
@@ -479,20 +480,23 @@
       {
         id: "p02",
         title: "Fantom - Devojka sa tužnim očima",
+        modalTitle: "Fantom - Devojka sa tužnim očima (Official Video)",
         role: "DP",
         embed: "Mhnuxkgok60",
         thumb: "https://img.youtube.com/vi/Mhnuxkgok60/maxresdefault.jpg"
       },
       {
         id: "p03",
-        title: "lockddd - Park The Bus DJ Set",
+        title: "lockddd - Park The Bus",
+        modalTitle: "lockddd | Park The Bus DJ Set",
         role: "DP · VIDEO EDITOR",
         embed: "f5gPtj8XD10",
         thumb: "lockddd DJ Set Thumbnail.png"
       },
       {
         id: "p04",
-        title: "Femme Affair Summer Season DJ Set",
+        title: "Femme Affair Summer Season",
+        modalTitle: "Femme Affair Summer Season DJ Set",
         role: "CAMERA · VIDEO EDITOR · COLORIST",
         embed: "fNS6zZJ7zDM",
         thumb: "https://img.youtube.com/vi/fNS6zZJ7zDM/maxresdefault.jpg"
@@ -500,6 +504,7 @@
       {
         id: "p05",
         title: "Keune Business Dinner at the Bristol",
+        modalTitle: "Keune Business Dinner at the Bristol",
         role: "CAMERA · VIDEO EDITOR · COLORIST",
         embed: "CilpvYHEEO8",
         thumb: "https://img.youtube.com/vi/CilpvYHEEO8/maxresdefault.jpg"
@@ -507,20 +512,23 @@
       {
         id: "p06",
         title: "We Got Your Back - CAKE.com",
+        modalTitle: "We Got Your Back | CAKE.com",
         role: "CAMERA · MOTION GRAPHICS DESIGNER",
         embed: "DwakqUxIr6A",
         thumb: "We Got Your Back Thumbnail.png"
       },
       {
         id: "p07",
-        title: "Iron Maiden Tribute Aftermovie",
+        title: "Iron Maiden Tribute Night",
+        modalTitle: "Iron Maiden Tribute Aftermovie",
         role: "CAMERA",
         embed: "aKgrPhtxTTA",
         thumb: "https://img.youtube.com/vi/aKgrPhtxTTA/maxresdefault.jpg"
       },
       {
         id: "p08",
-        title: "Bičkeji Barbershop Promotional Video",
+        title: "Bičkeji Barbershop",
+        modalTitle: "Barbershop Promotional Video",
         role: "CAMERA · VIDEO EDITOR · COLORIST",
         embed: "zA6qnh-IZWY",
         thumb: "https://img.youtube.com/vi/zA6qnh-IZWY/maxresdefault.jpg"
@@ -866,7 +874,7 @@
       const role = document.getElementById('modalRole');
       const extLink = document.getElementById('modalYoutubeExternal');
 
-      title.textContent = project.title;
+      title.textContent = project.modalTitle || project.title;
       role.textContent = project.role;
       extLink.href = `https://www.youtube.com/watch?v=${project.embed}`;
       iframe.title = 'YouTube video player';
