@@ -203,7 +203,10 @@
       .swipe-hint-up { top: 92px; bottom: auto; }
       .swipe-hint-up svg { animation-name: swipeBobUp; }
       /* About / Contact: full screen, always scrollable, no page behind it moving */
-      #aboutView, #contactView { height: 100dvh; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+      /* The page itself never scrolls on phones: only the About / Contact panels do */
+      html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+      body { position: fixed; inset: 0; width: 100%; }
+      #aboutView, #contactView { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
       #contactView { display: flex; align-items: flex-start; justify-content: center; padding-top: 96px; padding-bottom: 48px; }
       #contactView > div { margin: auto 0; }
     }
