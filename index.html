@@ -95,6 +95,9 @@
     /* Theater modal: width follows the available height so the 16:9 frame is never squeezed (flush with the video) */
     .modal-w { width: min(64rem, 100%, calc((100vh - 13rem) * 16 / 9)); }
 
+    /* Self-hosted background clip: fills the screen, no YouTube UI exists */
+    .bg-clip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; pointer-events: none; }
+
     /* Still image shown over the video while YouTube's start-up UI (pause icon) is on screen */
     .bg-poster { z-index: 2; object-fit: cover; opacity: 1; transition: opacity 0.7s ease; }
     .bg-poster.is-gone { opacity: 0; }
@@ -542,6 +545,7 @@
     const PROJECTS = [
       {
         id: "p01",
+        clip: "bg/couch-cup-2024.mp4",
         title: "Couch Cup 2024",
         modalTitle: "Couch Cup 26 (Official Video)",
         role: "DIRECTOR · DP",
@@ -550,6 +554,7 @@
       },
       {
         id: "p02",
+        clip: "bg/fantom-devojka-sa-tuznim-ocima.mp4",
         title: "Fantom - Devojka sa tužnim očima",
         modalTitle: "Fantom - Devojka sa tužnim očima (Official Video)",
         role: "DP",
@@ -558,6 +563,7 @@
       },
       {
         id: "p03",
+        clip: "bg/lockddd-park-the-bus.mp4",
         title: "lockddd - Park The Bus",
         modalTitle: "lockddd | Park The Bus DJ Set",
         role: "DP · VIDEO EDITOR",
@@ -566,6 +572,7 @@
       },
       {
         id: "p04",
+        clip: "bg/femme-affair-summer-season.mp4",
         title: "Femme Affair Summer Season",
         modalTitle: "Femme Affair Summer Season DJ Set",
         role: "CAMERA · VIDEO EDITOR · COLORIST",
@@ -574,6 +581,7 @@
       },
       {
         id: "p05",
+        clip: "bg/keune-business-dinner.mp4",
         title: "Keune Business Dinner at the Bristol",
         modalTitle: "Keune Business Dinner at the Bristol",
         role: "CAMERA · VIDEO EDITOR · COLORIST",
@@ -582,6 +590,7 @@
       },
       {
         id: "p06",
+        clip: "bg/we-got-your-back-cake.mp4",
         title: "We Got Your Back - CAKE.com",
         modalTitle: "We Got Your Back | CAKE.com",
         role: "CAMERA · MOTION GRAPHICS DESIGNER",
@@ -590,6 +599,7 @@
       },
       {
         id: "p07",
+        clip: "bg/iron-maiden-tribute-night.mp4",
         title: "Iron Maiden Tribute Night",
         modalTitle: "Iron Maiden Tribute Aftermovie",
         role: "CAMERA",
@@ -598,6 +608,7 @@
       },
       {
         id: "p08",
+        clip: "bg/bickeji-barbershop.mp4",
         title: "Bičkeji Barbershop",
         modalTitle: "Barbershop Promotional Video",
         role: "CAMERA · VIDEO EDITOR · COLORIST",
@@ -722,10 +733,14 @@
      * start-up UI (loading circle, pause icon, title) already happened off-screen.
      */
     function showLayer(layer) {
-      // No play/pause/seek here: any state change makes YouTube flash its center icon.
+      if (layer._clip) { const pr = layer._clip.play(); if (pr && pr.catch) pr.catch(() => {}); }
       requestAnimationFrame(() => {
         bgVideoStage.querySelectorAll('.bg-video-layer').forEach(other => {
           other.classList.toggle('is-active', other === layer);
+          if (other !== layer && other._clip) {
+            // Pause the clip we left once it has faded out
+            setTimeout(() => { if (!other.classList.contains('is-active')) other._clip.pause(); }, 800);
+          }
         });
       });
     }
@@ -745,19 +760,53 @@
       return poster;
     }
 
+    // Self-hosted clip (bg/NAME.mp4). If the file is missing, the YouTube background is used instead.
+    const hasClip = (p) => !!p.clip && !p.clipFailed;
+
+    function attachClip(layer, project, play) {
+      let v = layer._clip;
+      if (!v) {
+        v = document.createElement('video');
+        v.className = 'bg-clip';
+        v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true;
+        v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.setAttribute('tabindex', '-1'); v.setAttribute('aria-hidden', 'true');
+        v.preload = 'auto';
+        v.src = project.clip + '#t=0.001'; // shows the first frame as soon as it has loaded
+        v.addEventListener('error', () => {
+          project.clipFailed = true;
+          v.remove(); layer._clip = null;
+          attachVideo(layer, project); // fall back to YouTube
+        }, { once: true });
+        layer.insertBefore(v, layer.firstChild);
+        layer._clip = v;
+      }
+      if (play) { const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
+      else v.pause();
+      return v;
+    }
+
+    // iOS Low Power Mode blocks autoplay: the first touch/click starts the visible clip
+    function kickVisibleClip() {
+      const p = activeList[activeIndex];
+      const l = p && bgVideoStage.querySelector(`[data-project-id="${p.id}"]`);
+      if (l && l._clip) { const pr = l._clip.play(); if (pr && pr.catch) pr.catch(() => {}); }
+    }
+    ['touchstart', 'click'].forEach(ev => document.addEventListener(ev, kickVisibleClip, { once: true, passive: true }));
+
     function ensureShell(project) {
       let layer = bgVideoStage.querySelector(`[data-project-id="${project.id}"]`);
       if (layer) return layer;
       layer = document.createElement('div');
       layer.className = 'bg-video-layer';
       layer.setAttribute('data-project-id', project.id);
-      makePoster(layer, project);
+      if (!hasClip(project)) makePoster(layer, project);
       bgVideoStage.appendChild(layer);
       return layer;
     }
 
     // Remove the player again (keeps only the thumbnail) to save memory on phones
     function stripVideo(layer, project) {
+      if (hasClip(project)) { attachClip(layer, project, false); return; } // keep the clip loaded, just paused
       const old = layer.querySelector('iframe');
       if (old) old.remove();
       layer._player = null; layer._armed = false; layer.classList.remove('is-ready');
@@ -766,6 +815,7 @@
     }
 
     function attachVideo(layer, project) {
+      if (hasClip(project)) { attachClip(layer, project, true); return; }
       if (layer.querySelector('iframe')) return;
       const iframe = document.createElement('iframe');
       iframe.className = 'bg-iframe-cover is-playing';
@@ -913,7 +963,7 @@
         bgVideoStage.querySelectorAll('.bg-video-layer').forEach(l => { if (!keep.has(l.getAttribute('data-project-id'))) l.remove(); });
         return;
       }
-      const order = list.map((p, i) => i).sort((x, y) => (x === firstIndex ? -1 : y === firstIndex ? 1 : x - y));
+      const order = list.map((p, i) => i).filter(i => !hasClip(list[i])).sort((x, y) => (x === firstIndex ? -1 : y === firstIndex ? 1 : x - y));
       order.forEach((i, n) => {
         preloadTimers.push(setTimeout(() => ensureLayer(list[i]), n * 350));
       });
@@ -965,6 +1015,13 @@
       const triggerBackgroundSwap = () => {
         const layer = ensureLayer(project);
         showLayer(layer); // thumbnail covers it until the video is clean
+        if (CAN_PRELOAD_ALL) {
+          // Clips of the neighbouring titles are loaded (paused) so hovering them is instant
+          [index - 1, index + 1].forEach(i => {
+            const np = activeList[wrapIdx(i)];
+            if (np && hasClip(np)) { const nl = ensureShell(np); if (!nl._clip) attachClip(nl, np, false); }
+          });
+        }
         if (!CAN_PRELOAD_ALL) {
           // Keep at most 2 players alive on phones (the one shown + the one fading out)
           const all = Array.from(bgVideoStage.querySelectorAll('.bg-video-layer'));
