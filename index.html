@@ -206,7 +206,9 @@
       /* The page itself never scrolls on phones: only the About / Contact panels do */
       html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
       body { position: fixed; inset: 0; width: 100%; }
-      #aboutView, #contactView { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+      #aboutView, #contactView { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+      /* A hidden panel must not take part in touch handling at all (the project screen blocks scrolling with touch-action: none) */
+      .view-panel.is-hidden { visibility: hidden; transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.35s; }
       #contactView { display: flex; align-items: flex-start; justify-content: center; padding-top: 96px; padding-bottom: 48px; }
       #contactView > div { margin: auto 0; }
     }
