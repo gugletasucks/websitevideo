@@ -89,8 +89,6 @@
       transform: translate(-50%, -46%) scale(1.15);
       pointer-events: none;
       border: 0;
-      opacity: 0;
-      transition: opacity 0.8s ease;
     }
 
     /* Revealed only once YouTube reports the video is actually playing,
@@ -621,51 +619,82 @@
       return ytApiPromise;
     }
 
-    // A background video plays invisibly for this long before it fades in, so any
-    // YouTube start-up UI (pause icon, loading circle, title, captions) is gone first.
-    // Increase it if you ever still see something flash; decrease for a faster swap.
-    const BG_REVEAL_DELAY_MS = 2200;
-
     function disableCaptions(player) {
       try { player.unloadModule('captions'); } catch (err) {}
       try { player.unloadModule('cc'); } catch (err) {}
       try { player.setOption('captions', 'track', {}); } catch (err) {}
     }
 
+    // The project the background should currently be showing
+    let wantedBgProjectId = null;
+
     /**
-     * Sets up one background iframe. `onReveal` is called once the video has
-     * started and played unseen for BG_REVEAL_DELAY_MS; only then is it faded in.
+     * Every video of the visible list is loaded in the background ahead of time
+     * (hidden, muted, buffered at 0:00 and paused). Hovering a title then only
+     * has to press play and crossfade, so it starts instantly and YouTube's
+     * start-up UI (loading circle, pause icon, title) already happened off-screen.
      */
-    function setupBackgroundPlayer(layer, iframe, onReveal) {
-      let revealed = false;
-      const reveal = () => {
-        if (revealed) return;
-        revealed = true;
-        iframe.classList.add('is-playing');
+    function showLayer(layer) {
+      if (layer._player && layer._player.playVideo) {
+        try { layer._player.seekTo(0, true); layer._player.playVideo(); } catch (err) {}
+      }
+      requestAnimationFrame(() => {
+        bgVideoStage.querySelectorAll('.bg-video-layer').forEach(other => {
+          if (other === layer) {
+            other.classList.add('is-active');
+          } else if (other.classList.contains('is-active')) {
+            other.classList.remove('is-active');
+            // Pause the one we left once it has faded out
+            setTimeout(() => {
+              if (!other.classList.contains('is-active') && other._player && other._player.pauseVideo) {
+                try { other._player.pauseVideo(); } catch (err) {}
+              }
+            }, 1000);
+          }
+        });
+      });
+    }
+
+    function ensureLayer(project) {
+      let layer = bgVideoStage.querySelector(`[data-project-id="${project.id}"]`);
+      if (layer) return layer;
+
+      layer = document.createElement('div');
+      layer.className = 'bg-video-layer';
+      layer.setAttribute('data-project-id', project.id);
+      const iframe = document.createElement('iframe');
+      iframe.className = 'bg-iframe-cover is-playing';
+      iframe.src = buildYoutubeEmbedUrl(project.embed, true);
+      iframe.title = 'YouTube video player';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      iframe.allowFullscreen = true;
+      iframe.setAttribute('tabindex', '-1');
+      layer.appendChild(iframe);
+      bgVideoStage.appendChild(layer);
+
+      const markReady = () => {
         layer.classList.add('is-ready');
-        onReveal();
+        if (wantedBgProjectId === project.id) showLayer(layer);
       };
-      // Only if the YouTube API itself is blocked/unavailable: show the iframe anyway
-      setTimeout(() => { if (!(window.YT && window.YT.Player)) reveal(); }, 8000);
+      // If the YouTube API is blocked, still show the plain iframe
+      setTimeout(() => { if (!layer.classList.contains('is-ready') && !(window.YT && window.YT.Player)) markReady(); }, 8000);
 
       loadYouTubeApi().then((YT) => {
-        if (!YT) { reveal(); return; }
+        if (!YT) { markReady(); return; }
         if (!iframe.isConnected) return;
-        let revealTimer = null;
-        new YT.Player(iframe, {
+        layer._player = new YT.Player(iframe, {
           events: {
-            onReady: (e) => {
-              e.target.mute();
-              e.target.playVideo();
-            },
-            // Fires when YouTube loads the captions module: switch it straight off
+            onReady: (e) => { e.target.mute(); e.target.playVideo(); },
             onApiChange: (e) => disableCaptions(e.target),
             onStateChange: (e) => {
               if (e.data === YT.PlayerState.PLAYING) {
                 disableCaptions(e.target);
-                if (!revealTimer) {
-                  [400, 1000, 1800].forEach((ms) => setTimeout(() => disableCaptions(e.target), ms));
-                  revealTimer = setTimeout(reveal, BG_REVEAL_DELAY_MS);
+                if (!layer._armed) {
+                  // First frames rolled while hidden: park at 0:00, ready for instant play
+                  layer._armed = true;
+                  if (wantedBgProjectId !== project.id) { e.target.pauseVideo(); e.target.seekTo(0, true); }
+                  markReady();
                 }
               } else if (e.data === YT.PlayerState.ENDED) {
                 e.target.seekTo(0);
@@ -675,21 +704,22 @@
           }
         });
       });
+      return layer;
     }
 
-    // The project the background should currently be showing
-    let wantedBgProjectId = null;
-
-    // Crossfade the stage to a given (ready) layer
-    function crossfadeToLayer(targetLayer) {
-      requestAnimationFrame(() => {
-        bgVideoStage.querySelectorAll('.bg-video-layer').forEach(layer => {
-          if (layer === targetLayer) {
-            layer.classList.add('is-active');
-          } else {
-            layer.classList.remove('is-active');
-          }
-        });
+    // Load the whole visible list in the background, one after another
+    let preloadTimers = [];
+    function preloadList(list, firstIndex) {
+      preloadTimers.forEach(clearTimeout);
+      preloadTimers = [];
+      const order = list.map((p, i) => i).sort((x, y) => (x === firstIndex ? -1 : y === firstIndex ? 1 : x - y));
+      order.forEach((i, n) => {
+        preloadTimers.push(setTimeout(() => ensureLayer(list[i]), n * 350));
+      });
+      // Drop layers that belong to the other list
+      const ids = new Set(list.map(p => String(p.id)));
+      bgVideoStage.querySelectorAll('.bg-video-layer').forEach(l => {
+        if (!ids.has(l.getAttribute('data-project-id'))) l.remove();
       });
     }
 
@@ -723,53 +753,18 @@
 
       wantedBgProjectId = project.id;
 
-      // Debounce iframe loading slightly when rapidly scrubbing across titles
+      // Tiny debounce so quickly sweeping across titles doesn't start every video
       clearTimeout(hoverDebounceTimer);
       const triggerBackgroundSwap = () => {
-        // Reuse this project's layer if it already exists in the stage
-        let targetLayer = bgVideoStage.querySelector(`[data-project-id="${project.id}"]`);
-
-        if (!targetLayer) {
-          targetLayer = document.createElement('div');
-          targetLayer.className = 'bg-video-layer';
-          targetLayer.setAttribute('data-project-id', project.id);
-          // Autoplaying muted YouTube iframe cover matching exact embed attributes
-          const iframe = document.createElement('iframe');
-          iframe.className = 'bg-iframe-cover';
-          iframe.src = buildYoutubeEmbedUrl(project.embed, true);
-          iframe.title = 'YouTube video player';
-          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-          iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-          iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-          iframe.allowFullscreen = true;
-          iframe.setAttribute('tabindex', '-1');
-
-          targetLayer.appendChild(iframe);
-          bgVideoStage.appendChild(targetLayer);
-          const newLayer = targetLayer;
-          // The previous video keeps playing until this one is ready, then they crossfade
-          setupBackgroundPlayer(newLayer, iframe, () => {
-            if (wantedBgProjectId === project.id) crossfadeToLayer(newLayer);
-          });
-        } else if (targetLayer.classList.contains('is-ready')) {
-          crossfadeToLayer(targetLayer);
-        }
-
-        // Keep DOM light: prune old layers beyond the 3 most recent (never the active/wanted one)
-        const layers = Array.from(bgVideoStage.querySelectorAll('.bg-video-layer'));
-        if (layers.length > 3) {
-          layers.slice(0, layers.length - 3).forEach(oldLayer => {
-            if (!oldLayer.classList.contains('is-active') && oldLayer !== targetLayer) {
-              oldLayer.remove();
-            }
-          });
-        }
+        const layer = ensureLayer(project);
+        if (layer.classList.contains('is-ready')) showLayer(layer);
+        // otherwise markReady() shows it as soon as it is buffered
       };
 
       if (immediate) {
         triggerBackgroundSwap();
       } else {
-        hoverDebounceTimer = setTimeout(triggerBackgroundSwap, 110);
+        hoverDebounceTimer = setTimeout(triggerBackgroundSwap, 40);
       }
     }
 
@@ -779,6 +774,7 @@
     function renderProjectIndex(list) {
       activeList = list;
       projectListContainer.innerHTML = '';
+      preloadList(list, 0);
 
       list.forEach((project, idx) => {
         const btn = document.createElement('button');
