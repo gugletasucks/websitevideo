@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/35302079/README.md)
 # Gugleta Portfolio
 
 Single-page portfolio for Lazar Gugleta, hosted on GitHub Pages at https://gugleta.com
@@ -12,6 +13,7 @@ Single-page portfolio for Lazar Gugleta, hosted on GitHub Pages at https://gugle
 ├── opengraph.jpg                   ← Preview image when the link is shared (1200x630)
 ├── We Got Your Back Thumbnail.png  ← Custom thumbnail image
 ├── lockddd DJ Set Thumbnail.png    ← Custom thumbnail image
+├── bg/                             ← Background video clips (MP4, no audio) for the Projects page
 ├── CNAME                           ← Keeps the gugleta.com domain (do not delete)
 └── README.md
 ```
@@ -36,6 +38,20 @@ Project data is inside `index.html`, in the `<script>` near the bottom. Search f
 - To remove a project, delete its whole `{ ... },` block.
 - Don't forget the comma between blocks.
 - Hovering a title plays that video as the full-screen background; clicking opens it in the theater window.
+
+## Background video clips
+
+Each project can have a short looping clip used as the full-screen background (hover on desktop, swipe on phone). It's set with the `clip` line in the project data:
+
+```js
+{ id: "p01", clip: "bg/couch-cup-2024.mp4", title: "Couch Cup 2024", ... }
+```
+
+- Put the MP4 in the `bg/` folder with exactly that file name.
+- Recommended export: H.264, 1920x1080, 24/25 fps, VBR 6 Mbps (max 8), **no audio**, 10-15 seconds, seamless loop (about 8-12 MB).
+- If a project has no `clip` line, or the file is missing, the site falls back to the YouTube background automatically.
+- The Motion Graphics projects still use the YouTube background until clips are added for them.
+- The theater window always plays the full YouTube video.
 
 ## Editing text
 
