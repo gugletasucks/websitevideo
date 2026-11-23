@@ -1,73 +1,62 @@
-[README.md](https://github.com/user-attachments/files/29133327/README.md)
 # Gugleta Portfolio
 
-## File Structure
+Single-page portfolio for Lazar Gugleta, hosted on GitHub Pages at https://gugleta.com
+
+## File structure
 
 ```
-gugleta/
-├── index.html                      ← Projects page (home)
-├── logo.png                        ← Nav logo
+├── index.html                      ← The whole site (design, content, project data, scripts)
+├── logo.png                        ← Logo (nav / header)
 ├── favicon.png                     ← Browser tab icon
-├── Profilna.jpeg                   ← About page profile photo
-├── youtube.html                    ← Helper page used to embed YouTube videos
-├── css/
-│   └── style.css                   ← All styles
-├── js/
-│   ├── main.js                     ← Nav, back-to-top, year (runs on every page)
-│   ├── projects.js                 ← PROJECTS data — edit to add/change videos on the Projects page
-│   ├── project-page.js             ← Renders the individual Projects detail page
-│   ├── motion-graphics-projects.js ← MOTION_PROJECTS data — edit to add/change videos on the Motion Graphics page
-│   ├── motion-graphics-page.js     ← Renders the individual Motion Graphics detail page
-│   └── contact.js                  ← EmailJS contact form handler
-└── pages/
-    ├── about.html                  ← About page
-    ├── contact.html                ← Contact page
-    ├── project.html                ← Single project view for the Projects page
-    ├── motion-graphics.html        ← Motion Graphics page (grid)
-    └── motion-graphics-project.html ← Single project view for the Motion Graphics page
+├── Profilna.jpeg                   ← Profile photo on the About view
+├── opengraph.jpg                   ← Preview image when the link is shared (1200x630)
+├── We Got Your Back Thumbnail.png  ← Custom thumbnail image
+├── lockddd DJ Set Thumbnail.png    ← Custom thumbnail image
+├── CNAME                           ← Keeps the gugleta.com domain (do not delete)
+└── README.md
 ```
 
-## How to Add / Edit Projects
+`index.html` contains four views that switch without reloading: **Projects**, **Motion Graphics**, **About** and **Contact**.
 
-The site has **two separate, independent project grids** — Projects and Motion Graphics. They use the same card layout and behavior but pull from two different data files, so editing one never affects the other.
+## Adding or editing projects
 
-### Projects page → `js/projects.js`
-Edit the `PROJECTS` array. Each project is one object:
+Project data is inside `index.html`, in the `<script>` near the bottom. Search for `const PROJECTS` and `const MOTION_PROJECTS`.
 
 ```js
 {
-  id: "p01",                       // unique slug — used in URLs (?id=p01)
-  titleOverride: "My Project Title", // set to null to auto-fetch the title from YouTube/Vimeo
-  type: "VIDEO EDITOR · COLORIST",   // shown as label above the title
-  thumb: "URL to thumbnail image",
-  platform: "youtube",             // youtube | vimeo | external
-  embed: "VIDEO_ID",                // YouTube/Vimeo: video ID only (may include ?si=... for YouTube)
-  description: "Role: Video Editor, Colorist",
-  related: ["p02", "p03", "p04"]    // IDs of projects shown in "You May Also Like"
+  id: "p09",                         // unique; p01... for Projects, m01... for Motion Graphics
+  title: "My Project Title",         // shown in the list and above the video
+  role: "DP · VIDEO EDITOR",         // small label above the title in the video window
+  embed: "YOUTUBE_VIDEO_ID",         // only the ID: youtube.com/watch?v=THIS_PART
+  thumb: "https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/maxresdefault.jpg"
 }
 ```
 
-### Motion Graphics page → `js/motion-graphics-projects.js`
-Same exact format, but edit the `MOTION_PROJECTS` array instead. IDs in this file should be prefixed differently (e.g. `m01`, `m02`) to avoid confusion with Projects IDs — they're independent, but keeping them visually distinct helps when editing.
+- The **order in the array is the order in the list**.
+- To remove a project, delete its whole `{ ... },` block.
+- Don't forget the comma between blocks.
+- Hovering a title plays that video as the full-screen background; clicking opens it in the theater window.
 
-### Thumbnails
+## Editing text
 
-**YouTube:**
-`https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg`
+- **About text, software and disciplines lists:** inside `<section id="aboutView">`.
+- **Contact text and email:** inside `<section id="contactView">`.
+- **Browser tab title:** the `<title>` tag at the top of `index.html`.
+- **Link preview (WhatsApp, Instagram...):** the `og:` lines at the top. Replace `opengraph.jpg` to change the image. Social apps cache previews, so changes can take a while to show.
 
-**Vimeo:**
-`https://vumbnail.com/YOUR_VIDEO_ID.jpg`
+## Contact form (EmailJS)
 
-## Favicon & Logo
-Replace `favicon.png` and `logo.png` in the root with your own files, keeping the same filenames — no code changes needed.
+The form sends mail through EmailJS. The public key, service ID and template ID are in `index.html`, in the contact form handler (search for `emailjs.send`). The template receives `name`, `email`, `subject` and `message`.
 
-## Profile Photo
-Replace `Profilna.jpeg` in the root with your own photo, keeping the same filename.
+To change where messages arrive, edit the template or service in the EmailJS dashboard. If you ever create new ones, paste the new IDs into that `emailjs.send(...)` line. In the EmailJS dashboard, you can also limit the key to the gugleta.com domain.
 
-## EmailJS (Contact Form)
-The contact form sends to your email via EmailJS. Your current keys live in `js/contact.js`:
-- `publicKey`
-- Service ID (e.g. `service_xxxxxxx`)
-- Template ID (e.g. `template_xxxxxxx`)
+## Publishing changes
 
-If you ever need to reconnect or change the destination email, update your EmailJS dashboard and paste the new IDs into `js/contact.js`.
+1. Upload the changed files to the GitHub repo (`gugletasucks/websitevideo`) and commit.
+2. GitHub Pages rebuilds in a minute or two.
+3. Hard refresh to see the new version: Cmd+Shift+R (Mac) or Ctrl+Shift+R (Windows).
+
+## Notes
+
+- Styling uses Tailwind via CDN, and fonts come from Google Fonts. No build step is needed.
+- Background videos are YouTube embeds. YouTube shows a brief pause icon on embeds as they start, so the site covers each video with its thumbnail until it clears.
