@@ -203,15 +203,20 @@
       .swipe-hint-up { top: 92px; bottom: auto; }
       .swipe-hint-up svg { animation-name: swipeBobUp; }
       /* About / Contact: full screen, always scrollable, no page behind it moving */
-      /* The page itself never scrolls on phones: only the About / Contact panels do */
-      html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
-      body { position: fixed; inset: 0; width: 100%; }
-      #aboutView, #contactView { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+      /* Project screens: the page is locked (swiping changes the project).
+         About / Contact: normal page scrolling, which works everywhere on the screen. */
+      html:has(body:not([data-view="about"]):not([data-view="contact"])),
+      body:not([data-view="about"]):not([data-view="contact"]) { height: 100%; overflow: hidden; overscroll-behavior: none; }
+      body:not([data-view="about"]):not([data-view="contact"]) { position: fixed; inset: 0; width: 100%; }
+      body[data-view="about"] #indexView, body[data-view="contact"] #indexView { display: none; }
+      #aboutView, #contactView { position: relative; inset: auto; width: 100%; min-height: 100vh; overflow: visible; animation: panelIn 0.35s ease; }
+      #aboutView.is-hidden, #contactView.is-hidden { display: none; }
       /* A hidden panel must not take part in touch handling at all (the project screen blocks scrolling with touch-action: none) */
       .view-panel.is-hidden { visibility: hidden; transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.35s; }
       #contactView { display: flex; align-items: flex-start; justify-content: center; padding-top: 96px; padding-bottom: 48px; }
       #contactView > div { margin: auto 0; }
     }
+    @keyframes panelIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes swipeBobUp { 0%, 100% { transform: translateY(0); opacity: 0.6; } 50% { transform: translateY(-5px); opacity: 1; } }
 
     /* Phone contact page: contact details together on top, then the form fields in order */
@@ -1015,6 +1020,7 @@
     function switchView(viewName) {
       currentView = viewName;
       document.body.dataset.view = viewName;
+      window.scrollTo(0, 0);
 
       // Update Desktop & Mobile Nav active states
       document.querySelectorAll('.nav-item-link, .mobile-nav-btn').forEach(el => {
