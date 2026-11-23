@@ -781,7 +781,7 @@
       list.forEach((project, idx) => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `project-item-btn block w-full py-0.5 px-3 text-[14px] sm:text-[15px] md:text-[16px] font-normal tracking-[-0.008em] leading-[1.25] cursor-pointer focus:outline-none ${idx === 0 ? 'is-active' : ''}`;
+        btn.className = `project-item-btn block w-auto max-w-full py-0.5 px-3 text-[14px] sm:text-[15px] md:text-[16px] font-normal tracking-[-0.008em] leading-[1.25] cursor-pointer focus:outline-none ${idx === 0 ? 'is-active' : ''}`;
         btn.textContent = project.title;
 
         // Desktop hover triggers background video
