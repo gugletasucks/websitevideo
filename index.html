@@ -239,6 +239,12 @@
       #contactRows [class*="min-h-"] { min-height: 0; }
     }
 
+    /* Desktop: About is centered vertically like Contact (top-aligned only when the content is taller than the screen) */
+    @media (min-width: 1024px) {
+      #aboutView { display: flex; }
+      #aboutView > div { margin-top: auto; margin-bottom: auto; }
+    }
+
     /* Navigation Link Hover */
     .nav-item-link {
       color: rgba(255, 255, 255, 0.55);
