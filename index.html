@@ -863,8 +863,9 @@
       projectListContainer.style.opacity = '0';
       setTimeout(() => {           // the title changes halfway through the slide
         setActiveTitle(target);
+        projectListContainer.style.transition = 'opacity 0.55s ease';  // slow, smooth fade-in
         projectListContainer.style.opacity = '1';
-      }, 230);
+      }, 260);
       setTimeout(() => {
         activeIndex = target;
         phoneRender(target);
