@@ -162,14 +162,13 @@
       transition: color 0.32s cubic-bezier(0.22, 1, 0.36, 1),
                   transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
                   text-shadow 0.35s ease;
-      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+      /* no large blurred text-shadow: it got clipped into a faint box around the title */
     }
 
     .project-item-btn:hover,
     .project-item-btn.is-active {
       color: #ffffff;
       transform: scale(1.035);
-      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85);
     }
 
     /* ---- Phone layout (below 1024px): one title at a time, swipe for the next ---- */
