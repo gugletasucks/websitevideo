@@ -522,14 +522,14 @@
 
     <!-- Modal Bottom Prev/Next Controls -->
     <div class="modal-w flex items-center justify-between mt-4 text-xs font-display uppercase tracking-[0.18em] text-white/65">
-      <button onclick="navigateModalProject(-1)" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-        <span>&#8592;</span> Previous
+      <button onclick="navigateModalProject(-1)" aria-label="Previous project" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center">
+        <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" /></svg>
       </button>
-      <a id="modalYoutubeExternal" href="#" target="_blank" rel="noopener noreferrer" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors">
-        <span class="inline-flex items-center gap-2">Open on YouTube <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" /></svg></span>
+      <a id="modalYoutubeExternal" href="#" target="_blank" rel="noopener noreferrer" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors whitespace-nowrap">
+        Open on YouTube
       </a>
-      <button onclick="navigateModalProject(1)" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-        Next <span>&#8594;</span>
+      <button onclick="navigateModalProject(1)" aria-label="Next project" class="py-2 px-4 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center">
+        <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6" /></svg>
       </button>
     </div>
   </div>
