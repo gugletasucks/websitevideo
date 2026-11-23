@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/35302079/README.md)
+[README.md](https://github.com/user-attachments/files/35302916/README.md)
 # Gugleta Portfolio
 
 Single-page portfolio for Lazar Gugleta, hosted on GitHub Pages at https://gugleta.com
@@ -50,7 +50,7 @@ Each project can have a short looping clip used as the full-screen background (h
 - Put the MP4 in the `bg/` folder with exactly that file name.
 - Recommended export: H.264, 1920x1080, 24/25 fps, VBR 6 Mbps (max 8), **no audio**, 10-15 seconds, seamless loop (about 8-12 MB).
 - If a project has no `clip` line, or the file is missing, the site falls back to the YouTube background automatically.
-- The Motion Graphics projects still use the YouTube background until clips are added for them.
+- Motion Graphics clips work the same way (`m01`...`m06` in `MOTION_PROJECTS`), using the same `bg/` folder.
 - The theater window always plays the full YouTube video.
 
 ## Editing text
